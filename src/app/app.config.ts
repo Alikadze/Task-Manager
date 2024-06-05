@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 import { provideClientHydration } from '@angular/platform-browser';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { errorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
+import { tokenInterceptor } from './core/interceptors/token.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,10 +13,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     
-
     provideHttpClient(
       withInterceptors([
-        errorHandlerInterceptor
+        tokenInterceptor,
+        errorHandlerInterceptor,
       ]),
       withFetch()
     ), 
