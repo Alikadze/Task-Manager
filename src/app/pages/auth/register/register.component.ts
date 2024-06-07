@@ -101,7 +101,7 @@ export class RegisterComponent implements OnDestroy {
     ngOnDestroy(): void {
       this.sub$.next(null);
       this.sub$.complete(); 
-  }
+    }
 }
 
 

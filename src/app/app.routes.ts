@@ -10,11 +10,15 @@ export const routes: Routes = [
       {
         path: '',
         component: HomeComponent
+      },
+      {
+        path: 'auth',
+        loadChildren: () => import('../app/pages/auth/auth.routes').then(m => m.authRoute)
       }
     ]
   },
   {
-    path: '',
+    path: '**',
     pathMatch: 'full',
     redirectTo: '/'
   }
