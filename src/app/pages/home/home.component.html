@@ -1,53 +1,85 @@
+<div class="flex justify-center text-center mt-14 font-sans text-6xl font-bold tracking-wide text-neutral-800">
+  Work smarter with the <br> #1 task management platform
+</div>
 
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
-<div>Some Text</div>
+<div class="flex justify-center text-center mt-14 font-sans text-2xl tracking-wide text-neutral-700">
+  Plan, manage and track all your team's tasks in one flexible platform. 
+</div>
+
+<div class="flex justify-center mt-12">
+  <div>
+    <app-get-started/>
+  </div>
+</div>
+<div class="flex justify-center text-center mt-14 font-sans text-3xl tracking-wide text-neutral-700">
+  Trusted by 225,000+ customers worldwide
+</div>
+
+<div class="mt-20 w-5/6 m-auto">
+  
+  <div class="hidden sm:flex justify-between">
+    <button 
+      routerLink="" 
+      class="text-neutral-800 w-60 h-14 font-semibold transition duration-200 hover:bg-slate-100 text-3xl"
+      [class.active]="currentRoute === ''"
+      (click)="currentRoute = ''"
+    >
+      Automate
+    </button>
+    <button 
+      routerLink="collaborate" 
+      class="text-neutral-800 w-60 h-14 font-semibold transition duration-200 hover:bg-slate-100 text-3xl"
+      [class.active]="currentRoute === 'collaborate'"
+      (click)="currentRoute = 'collaborate'"
+    >
+      Collaborate
+    </button>
+    <button 
+      routerLink="transform"
+      class="text-neutral-800 w-60 h-14 font-semibold transition duration-200 hover:bg-slate-100 text-3xl"
+      [class.active]="currentRoute === 'transform'"
+      (click)="currentRoute = 'transform'"
+    >
+      Transform
+    </button>  
+  </div>
+
+  
+  <div class="mt-16">
+    <router-outlet/>
+  </div> 
+   
+</div>
+
+<div class="flex justify-center bg-slate-200 h-80 mt-10">
+  <div class="flex flex-col align-middle justify-center gap-10 m-auto">
+    <div class="font-sans text-4xl tracking-wide text-neutral-700">
+      Try the best for free
+    </div>
+    
+    <div class="m-auto">
+      <button 
+        routerLink="auth/register"
+        class="bg-indigo-500 text-white w-44 h-12 rounded-full transition duration-300 hover:bg-indigo-600"
+      >
+        Get Started &rarr;
+      </button>
+      <p class="text-sm text-gray-500 mt-1 ml-1">
+        Free forever. No credit card.
+      </p>
+    </div>
+  </div>
+</div>
+
+<div class="flex flex-col gap-10 mt-10">
+  <div class="flex justify-center text-center mt-14 font-sans text-3xl tracking-wide text-neutral-800">
+    Trusted by the bests
+  </div>
+
+  <div class="flex justify-around mt-7">
+    <img src="assets/images/Coca-Cola-logo.png" alt="Coca Cola" class="max-w-48 h-16">
+    <img src="assets/images/Canva_Logo.svg.png" alt="Coca Cola" class="max-w-48 h-16">
+    <img src="assets/images/2560px-Lionsgate_Logo.svg.png" alt="Coca Cola" class="max-w-48 h-12">
+    <img src="assets/images/630SRHFZ0QIX6gB56iN6VbExqKH1674231551922_200x200.png" alt="Coca Cola" class="-mt-16">
+  </div>
+</div>

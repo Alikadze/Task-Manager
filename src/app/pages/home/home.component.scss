@@ -1,0 +1,24 @@
+button {
+  position: relative;
+}
+
+button::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 3px;
+  background-color: blue;
+  transition: width 0.3s ease-in-out, left 0.3s ease-in-out;
+}
+
+button.active::after {
+  width: 100%;
+  left: 0;
+}
+
+button.active {
+  background-color: rgb(241 245 249);
+  transition: background-color 0.3s ease-in-out;
+}

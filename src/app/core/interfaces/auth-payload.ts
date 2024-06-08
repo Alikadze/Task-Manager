@@ -24,7 +24,7 @@ export interface User {
 }
 
 export interface Token {
-  expiresIn: number
+  expiresIn?: number
   accessToken: string
   refreshToken: string
 }
