@@ -89,9 +89,10 @@ export class RegisterComponent implements OnDestroy {
         )
         .subscribe((res) => {
             if (res) {
-                this.successMessage = 'You have successfully Signed Up';
+                this.successMessage = 'Create Your First Project';
                   setTimeout(() => {
-                    this.router.navigate(['/'])
+                    this.router.navigate(['/projects/add'])
+                    window.scrollTo(0, 0);
                   }, 2000)
               }
         })

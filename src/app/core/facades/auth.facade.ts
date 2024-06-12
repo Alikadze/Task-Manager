@@ -26,6 +26,8 @@ export class AuthFacade {
     return this.storageService.getItem('user')
   }
 
+  
+
   register(payload: AuthPayload): Observable<AuthResponce> {
     return this.authService.register(payload)
     .pipe(

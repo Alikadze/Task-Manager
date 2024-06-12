@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Component, OnChanges, SimpleChanges, inject } from '@angular/core';
+import { RouterLink, RouterOutlet, Router } from '@angular/router';
 import { GetStartedComponent } from "../../components/get-started/get-started.component";
 
 @Component({
@@ -15,4 +15,11 @@ import { GetStartedComponent } from "../../components/get-started/get-started.co
 })
 export class HomeComponent {
   currentRoute = '';
+  router = inject(Router)
+
+  navigateAndScrollToTop() {
+    this.router.navigate(['auth/register']).then(() => {
+      window.scrollTo(0, 93);
+    });
+  }
 }
