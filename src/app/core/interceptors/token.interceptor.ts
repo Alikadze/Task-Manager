@@ -21,29 +21,29 @@ export const tokenInterceptor: HttpInterceptorFn = (req, next) => {
     headers: req.headers.set('Authorization', `Bearer ${accessToken}`)
   })).pipe(
     catchError((err: any) => {
-      if(err.status === 401){
+      if (err.status === 401 && refreshToken) {
         return authService.token(refreshToken)
           .pipe(
             mergeMap((res: any) => {
               localStorage.setItem('accessToken', res.token.accessToken);
-              localStorage.setItem('accessToken', res.token.refreshToken);
-              
+              localStorage.setItem('refreshToken', res.token.refreshToken);
+
               return next(req.clone({
                 headers: req.headers.set('Authorization', `Bearer ${res.token.accessToken}`)
               }));
             }),
             catchError((res) => {
               localStorage.removeItem('accessToken');
-              localStorage.removeItem('accessToken');
+              localStorage.removeItem('refreshToken');
               localStorage.removeItem('user');
-              
+
               router.navigate(['/']);
 
               return throwError(() => res);
             })
-          )
+          );
       }
       return throwError(() => err);
     })
-  )
+  );
 };

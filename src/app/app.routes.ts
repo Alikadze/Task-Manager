@@ -15,6 +15,10 @@ export const routes: Routes = [
       {
         path: 'auth',
         loadChildren: () => import('../app/pages/auth/auth.routes').then(m => m.authRoute)
+      },
+      {
+        path: 'projects',
+        loadChildren: () => import('./pages/projects/project.routes').then(m => m.homeRoutes)
       }
     ]
   },
