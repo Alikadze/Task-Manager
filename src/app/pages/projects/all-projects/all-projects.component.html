@@ -1,11 +1,12 @@
-<div [style.backgroundColor]="projectBgColor">
-  <p>all-projects works!</p>
+<div class="grid grid-cols-8 gap-4 mt-14">
+  <div class="col-span-2 ml-20">
+    <app-left-side></app-left-side>
+  </div>
 
-  <!-- <pre>
-    {{user | json}}
-  </pre> -->
   
-  <pre>
-    {{allProjetcs$ | async | json}}
-  </pre>
+  <div class="col-span-1 border-l ml-8 -mr-5 border-gray-200 mb-12"></div>
+
+  <div class="col-span-5 mt-12 mr-14">
+    <router-outlet></router-outlet>
+  </div>
 </div>

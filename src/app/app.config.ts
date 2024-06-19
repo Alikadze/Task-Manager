@@ -7,6 +7,7 @@ import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/
 import { errorHandlerInterceptor } from './core/interceptors/error-handler.interceptor';
 import { tokenInterceptor } from './core/interceptors/token.interceptor';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { projectInterceptor } from './core/interceptors/project.inerceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -17,6 +18,7 @@ export const appConfig: ApplicationConfig = {
     
     provideHttpClient(
       withInterceptors([
+        projectInterceptor,
         tokenInterceptor,
         errorHandlerInterceptor,
       ]),

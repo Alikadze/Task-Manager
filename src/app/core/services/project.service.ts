@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment';
 import { ApiService } from './api.service';
 import { Observable } from 'rxjs';
 import { ProjectPayload, ProjectResponse } from '../interfaces/project';
@@ -9,27 +9,24 @@ import { PaginationResponse } from '../interfaces/pagination-response';
   providedIn: 'root'
 })
 export class ProjectService extends ApiService {
-  apiUrl = environment.apiUrl;
 
-  getProjects(): Observable<PaginationResponse<ProjectPayload>> {
-    return this.get<PaginationResponse<ProjectPayload>>(`project`);
+  getProjects(): Observable<PaginationResponse<ProjectResponse>> {
+    return this.get<PaginationResponse<ProjectResponse>>('project');
   }
 
-  getAllProjects(): Observable<ProjectPayload[]> {
-    return this.get<ProjectPayload[]>(`project/all`);
+  getAllProjects(): Observable<ProjectResponse[]> {
+    return this.get<ProjectResponse[]>('project/all');
   }
 
-  getMyProjects(): Observable<ProjectPayload[]> {
-    return this.get<ProjectPayload[]>(`project/my`);
+  getMyProjects(): Observable<ProjectResponse[]> {
+    return this.get<ProjectResponse[]>('project/my');
   }
 
-  getProject(id: number): Observable<ProjectPayload> {
-    return this.get<ProjectPayload>(`project/${id}`);
+  getProject(id: number): Observable<ProjectResponse> {
+    return this.get<ProjectResponse>(`project/${id}`);
   }
 
-  addProject(project: ProjectPayload): Observable<ProjectPayload> {
-    return this.post<ProjectPayload>('project', project);
+  addProject(project: ProjectPayload): Observable<ProjectResponse> {
+    return this.post<ProjectResponse>('project', project);
   }
-
-  
 }

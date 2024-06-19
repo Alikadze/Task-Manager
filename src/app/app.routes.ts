@@ -17,7 +17,7 @@ export const routes: Routes = [
         loadChildren: () => import('../app/pages/auth/auth.routes').then(m => m.authRoute)
       },
       {
-        path: 'projects',
+        path: 'workspace',
         loadChildren: () => import('./pages/projects/project.routes').then(m => m.homeRoutes)
       }
     ]
