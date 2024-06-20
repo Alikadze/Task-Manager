@@ -91,7 +91,7 @@ export class RegisterComponent implements OnDestroy {
             if (res) {
                 this.successMessage = 'Create Your First Project';
                   setTimeout(() => {
-                    this.router.navigate(['/projects/add'])
+                    this.router.navigate(['/workspace/add'])
                     window.scrollTo(0, 0);
                   }, 2000)
               }

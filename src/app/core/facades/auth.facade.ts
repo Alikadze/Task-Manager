@@ -26,6 +26,9 @@ export class AuthFacade {
     return this.storageService.getItem('user')
   }
 
+  get isAuthenticated(): boolean {
+    return !!this.accessToken
+  }
   
 
   register(payload: AuthPayload): Observable<AuthResponce> {
@@ -74,4 +77,8 @@ export class AuthFacade {
       )
   }
 
+  logOut() {
+    this.storageService.clear()
+    this.router.navigate(['/'])
+  }
 }

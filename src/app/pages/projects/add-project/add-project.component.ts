@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectFacade } from '../../../core/facades/project.facade';
-import { ProjectPayload } from '../../../core/interfaces/project';
+import { ProjectPayload, ProjectResponse } from '../../../core/interfaces/project';
 import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import {MatInputModule} from '@angular/material/input';
@@ -39,8 +39,7 @@ export class AddProjectComponent implements AfterViewInit{
 
   ngAfterViewInit(): void {
     this.form.get('color')!.valueChanges.subscribe((value) => {
-      this.projectColorService.setProjectBgColor(value as string)
-
+      this.projectFacade.themeColor;
     })
   }
 
@@ -86,9 +85,9 @@ export class AddProjectComponent implements AfterViewInit{
       )
       .subscribe((res) => {
         if(res) {
-          this.successMessage = 'You have successfully Signed Up';
+          this.successMessage = 'Project created!';
           setTimeout(() => {
-            this.router.navigate(['/projects']);
+            this.router.navigate(['/workspace']);
             window.scrollTo(0,0) 
           }, 2000)
         }

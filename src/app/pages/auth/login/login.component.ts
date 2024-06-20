@@ -75,7 +75,7 @@ export class LoginComponent {
         if (res) {
           this.successMessage = 'You have successfully Signed Up';
           setTimeout(() => {
-            this.router.navigate(['/'])
+            this.router.navigate(['/workspace'])
           }, 2000)
         }
      })
