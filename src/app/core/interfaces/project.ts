@@ -16,6 +16,21 @@ createdAt: any;
   boards: Board[]
 }
 
+export interface Boardpayload {
+  name: string,
+  description: string,
+  position: number,
+  columns: columsPayload[]
+}
+
+export interface columsPayload {
+  name: string,
+  description: string,
+  position: number,
+  boardId: number,
+  taskStatus: string
+}
+
 export interface Board {
   id: number
   name: string

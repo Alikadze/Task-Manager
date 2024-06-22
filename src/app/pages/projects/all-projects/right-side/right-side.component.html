@@ -41,7 +41,11 @@
         <div class="w-full h-24 bg-slate-600">   
           {{board.name}}
         </div>
-      }
+      } 
+
+      <div (click)="naviageOnAddBoard()" class="flex justify-center items-center w-full h-24 bg-slate-300 transition duration-300 hover:bg-slate-500 cursor-pointer">
+        Create new Board
+      </div>
     </div>
   }
 </div>
