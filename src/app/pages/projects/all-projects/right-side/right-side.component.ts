@@ -2,12 +2,13 @@ import { Component, OnInit, inject } from '@angular/core';
 import { Observable, switchMap } from 'rxjs';
 import { ProjectFacade } from '../../../../core/facades/project.facade';
 import { AsyncPipe, DatePipe, JsonPipe, NgFor, NgIf } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Board, ProjectResponse } from '../../../../core/interfaces/project';
 import { BoardService } from '../../../../core/services/board.service';
 import { MatDivider } from '@angular/material/divider';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
+import { BoardFacade } from '../../../../core/facades/board.facade';
 
 const DASHBOARD =
   `
@@ -25,6 +26,7 @@ const DASHBOARD =
     MatDivider,
     DatePipe,
     MatIconModule,
+    RouterLink
   ],
   templateUrl: './right-side.component.html',
   styleUrl: './right-side.component.scss'
@@ -33,6 +35,7 @@ export class RightSideComponent implements OnInit {
   projectFacade = inject(ProjectFacade);
   boardService = inject(BoardService);
   route = inject(ActivatedRoute);
+  router = inject(Router);
 
   project$!: Observable<ProjectResponse>;
   boards$!: Observable<Board[]>;
@@ -44,7 +47,8 @@ export class RightSideComponent implements OnInit {
   ngOnInit(): void {
     this.project$ = this.route.params.pipe(
       switchMap(params => {
-        const projectId = +params['id'];
+        const projectId = params['id'];
+        this.projectFacade.setProjectId(projectId);
         return this.projectFacade.getProjectById(projectId);
       })
     );
@@ -55,5 +59,10 @@ export class RightSideComponent implements OnInit {
         return this.boardService.getBoards(projectId);
       })
     );
+  }
+
+  naviageOnAddBoard () {
+    const projectId = this.route.snapshot.params['id']; // Get project ID from route
+    this.router.navigate([`/board/add`]);
   }
 }

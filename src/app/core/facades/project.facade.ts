@@ -8,6 +8,7 @@ import { StorageService } from "../services/storage.service";
   providedIn: 'root'
 })
 export class ProjectFacade {
+ 
   projectService = inject(ProjectService);
   storageService = inject(StorageService);
 
@@ -56,5 +57,16 @@ export class ProjectFacade {
         return [...new Set(colors)];
       })
     );
+  }
+
+  private projectId!: number;
+
+  setProjectId(id: number) {
+    this.projectId = id;
+    this.storageService.setItem('projectId', this.projectId);
+  }
+
+  getProjectId(): number {
+    return this.storageService.getItem('projectId');
   }
 }

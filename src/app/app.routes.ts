@@ -19,6 +19,10 @@ export const routes: Routes = [
       {
         path: 'workspace',
         loadChildren: () => import('./pages/projects/project.routes').then(m => m.homeRoutes)
+      },
+      {
+        path: 'board',
+        loadChildren: () => import('./pages/board/board.routes').then(m => m.homeRoutes)
       }
     ]
   },

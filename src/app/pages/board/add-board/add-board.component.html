@@ -1,0 +1,26 @@
+<div class="w-full -mt-24 pt-10">
+  <form [formGroup]="form" class="max-w-lg mx-auto p-6 mt-24 mb-10 py-10 bg-gray-800 text-white rounded-lg shadow-lg space-y-6">
+    <div class="font-sans text-lg font-bold">
+      Create new board
+    </div>
+    
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput id="name" type="text" formControlName="name" class="text-white">
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Description</mat-label>
+      <textarea matInput id="description" formControlName="description" class="text-white"></textarea>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Position</mat-label>
+      <input matInput id="position" type="number" min="0" formControlName="position" class="text-white">
+    </mat-form-field>
+    
+    <div class="flex justify-end">
+      <button mat-raised-button color="primary" type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" (click)="createBoard()" [disabled]="!form.valid">Submit</button>
+    </div>
+  </form>
+</div>
