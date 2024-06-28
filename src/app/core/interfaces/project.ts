@@ -20,15 +20,16 @@ export interface Boardpayload {
   name: string,
   description: string,
   position: number,
-  columns: columsPayload[]
+  columns: ColumnPayload[]
 }
 
-export interface columsPayload {
-  name: string,
-  description: string,
-  position: number,
-  boardId: number,
-  taskStatus: string
+export interface ColumnPayload {
+  name?: string,
+  description?: string,
+  position?: number,
+  boardId?: number,
+  taskStatus?: string
+  tasks?: Task[];
 }
 
 export interface Board {
@@ -46,47 +47,47 @@ export interface Board {
 }
 
 export interface Column {
-  id: number
-  name: string
-  description: string
-  position: number
-  boardId: number
-  board: string
-  tasks: Task[]
-  taskStatus: string
-  createdAt: string
-  updatedAt: string
-  deletedAt: string
+  id?: number
+  name?: string
+  description?: string
+  position?: number
+  boardId?: string | number
+  board?: string
+  tasks?: Task[]
+  taskStatus?: string
+  createdAt: Date
+  updatedAt: Date
+  deletedAt: Date | null
 }
 
 export interface Task {
-  id: number
-  name: string
-  description: string
-  issueTypeId: number
-  issueType: IssueType
-  epicId: number
-  epic: Epic
-  projectId: number
-  project: string
-  boardId: number
-  board: string
-  boardColumnId: number
-  boardColumn: string
-  isBacklog: boolean
-  priority: string
-  taskStatus: string
-  assigneeId: number
-  assignee: Assignee
-  reporterId: number
-  reporter: Reporter
-  createdById: number
-  createdBy: CreatedBy
-  deletedById: number
-  deletedBy: DeletedBy
-  createdAt: string
-  updatedAt: string
-  deletedAt: string
+  id?: number
+  name?: string
+  description?: string
+  issueTypeId?: number
+  issueType?: IssueType
+  epicId?: number
+  epic?: Epic
+  projectId?: number
+  project?: string
+  boardId?: number
+  board?: string
+  boardColumnId?: number
+  boardColumn?: string
+  isBacklog?: boolean
+  priority?: string
+  taskStatus?: string
+  assigneeId?: number
+  assignee?: Assignee
+  reporterId?: number
+  reporter?: Reporter
+  createdById?: number
+  createdBy?: CreatedBy
+  deletedById?: number
+  deletedBy?: DeletedBy
+  createdAt?: string
+  updatedAt?: string
+  deletedAt?: string
 }
 
 export interface IssueType {
