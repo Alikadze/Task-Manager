@@ -13,10 +13,14 @@ export class BoardFacade {
   boardService = inject(BoardService);
   storageService = inject(StorageService);
 
+  projectId = this.storageService.getItem('projectId');
+
   myBoards: BehaviorSubject<Board[]> = new BehaviorSubject<Board[]>([]);
 
   updatedBoardSubject = new BehaviorSubject<Board | null>(null); 
   updatedBoard$ = this.updatedBoardSubject.asObservable();
+
+  boards$ = this.boardService.getBoards(this.projectId);
 
 
   myProjects$ = this.myBoards.asObservable();
@@ -31,13 +35,6 @@ export class BoardFacade {
     )
   }
 
-  updateBoard(boardpayload: Boardpayload,boardId: number, projectId: number) {
-    return this.boardService.updateBoard(boardpayload, boardId, projectId).pipe(
-      tap((res: Board) => {
-        // this.storageService.setItem('columnName', res.columns.name)
-      })
-    )
-  }
 
   addColumn(boardId: number, projectId: number, columnPayload: ColumnPayload): Observable<Board> {
     return this.boardService.addBoardColumn(boardId, projectId, columnPayload).pipe(
@@ -58,7 +55,7 @@ export class BoardFacade {
   }
 
   getMyBoards$(projectId: number): Observable<Board[]> {
-    return this.boardService.getBoards().pipe(
+    return this.boardService.getBoards(projectId).pipe(
       tap(boards => this.myBoards.next(boards as Board[]))
     )
   }
