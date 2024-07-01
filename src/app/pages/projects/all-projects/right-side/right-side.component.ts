@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { Observable, switchMap } from 'rxjs';
+import { Observable, switchMap, tap } from 'rxjs';
 import { ProjectFacade } from '../../../../core/facades/project.facade';
 import { AsyncPipe, DatePipe, JsonPipe, NgFor, NgIf } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
@@ -61,8 +61,14 @@ export class RightSideComponent implements OnInit {
     );
   }
 
-  naviageOnAddBoard () {
-    const projectId = this.route.snapshot.params['id']; // Get project ID from route
+  naviageToAddBoard () {
+    const projectId = this.route.snapshot.params['id'];
     this.router.navigate([`/board/add`]);
+    window.scrollTo(0,0)
+  }
+
+  navigateToBoard(boardId: number): void {
+    this.router.navigate([`board/${boardId}`]);
+    window.scrollTo(0,0)
   }
 }
