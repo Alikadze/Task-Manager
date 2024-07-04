@@ -9,6 +9,7 @@ import { MatDivider } from '@angular/material/divider';
 import { MatIconModule, MatIconRegistry } from '@angular/material/icon';
 import { DomSanitizer } from '@angular/platform-browser';
 import { BoardFacade } from '../../../../core/facades/board.facade';
+import { StorageService } from '../../../../core/services/storage.service';
 
 const DASHBOARD =
   `
@@ -34,6 +35,7 @@ const DASHBOARD =
 export class RightSideComponent implements OnInit {
   projectFacade = inject(ProjectFacade);
   boardService = inject(BoardService);
+  storageService = inject(StorageService);
   route = inject(ActivatedRoute);
   router = inject(Router);
 
@@ -56,6 +58,7 @@ export class RightSideComponent implements OnInit {
     this.boards$ = this.route.params.pipe(
       switchMap(params => {
         const projectId = +params['id'];
+        this.storageService.setItem('projectId', projectId);
         return this.boardService.getBoards(projectId);
       })
     );

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BoardFacade } from '../../../../core/facades/board.facade';
 import { ProjectFacade } from '../../../../core/facades/project.facade';
 import { ActivatedRoute } from '@angular/router';
@@ -38,8 +38,10 @@ export class AddColFormComponent implements OnInit {
 
   boardId!: number;
   projectId: number = this.projectFacade.getProjectId();
+  
   successMessage: string | null | boolean = false;
   errorMessage: string | null | boolean = false;
+
   loading = false;
 
   @Output() columnAdded = new EventEmitter<ColumnPayload>();
@@ -49,13 +51,32 @@ export class AddColFormComponent implements OnInit {
   }
 
   form = new FormGroup({
-    name: new FormControl(''),
-    description: new FormControl(''),
-    position: new FormControl(1),
-    taskStatus: new FormControl('')
+    name: new FormControl('',Validators.required),
+    description: new FormControl('',Validators.required),
+    position: new FormControl(1,Validators.required),
+    taskStatus: new FormControl('',Validators.required)
   })
 
   addColumn(): void {
+
+    if (this.form.invalid) {
+      if (this.form.get('name')?.hasError('required')) {
+        this.errorMessage = "Name is required!";
+        return;
+      } else if (this.form.get('description')?.hasError('required')) {
+        this.errorMessage = "Description is required!";
+        return;
+      } else if (this.form.get('position')?.hasError('required')) {
+        this.errorMessage = "Position is required!";
+        return;
+      } else if (this.form.get('taskStatus')?.hasError('required')) {
+        this.errorMessage = "Task status is required!";
+        return;
+      }
+
+      return;
+    }
+
     this.loading = true;
     this.errorMessage = null;
 

@@ -1,11 +1,11 @@
-import { ChangeDetectorRef, Component, NgZone, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
 import { BoardFacade } from '../../../core/facades/board.facade';
-import { AsyncPipe, JsonPipe, DatePipe, NgIf, NgFor, NgForOf, CommonModule } from '@angular/common';
+import { AsyncPipe, JsonPipe, DatePipe, NgIf, NgFor, CommonModule } from '@angular/common';
 import { ProjectFacade } from '../../../core/facades/project.facade';
 import { ActivatedRoute } from '@angular/router';
-import { Board, Boardpayload, Column, ColumnPayload, Task, } from '../../../core/interfaces/project';
-import { BehaviorSubject, Observable, Subject, catchError, of, pipe, share, switchMap, take, takeUntil, tap, throwError } from 'rxjs';
-import {MatButtonModule} from '@angular/material/button';
+import { Board, Boardpayload, ColumnPayload, Task, } from '../../../core/interfaces/project';
+import { BehaviorSubject, Observable, Subject, catchError, of, switchMap, tap } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatDivider } from '@angular/material/divider';
@@ -18,12 +18,10 @@ import {
   CdkDropListGroup,
   CdkDragPlaceholder,
 } from '@angular/cdk/drag-drop';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ColumnTest } from '../../../core/models/column';
-import { BoardTest } from '../../../core/models/Board';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BoardTestCopy } from '../../../core/models/Board copy';
-import internal from 'stream';
 import { AddColFormComponent } from "./add-col-form/add-col-form.component";
+import { SidebarComponent } from "./sidebar/sidebar.component";
 
 
 @Component({
@@ -48,7 +46,8 @@ import { AddColFormComponent } from "./add-col-form/add-col-form.component";
         NgIf,
         AddColFormComponent,
         CommonModule,
-        MatDivider
+        MatDivider,
+        SidebarComponent
     ]
 })
 export class ShowBoardComponent {
@@ -159,4 +158,4 @@ export class ShowBoardComponent {
     this.destroy$.next();
     this.destroy$.complete();
   }
-}
+} 
