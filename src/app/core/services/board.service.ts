@@ -66,13 +66,12 @@ export class BoardService extends ApiService{
       map(board => {
         // Create a new column object with the required properties
         const newColumn: Column = {
-          id: 0,
           board: boardId.toString(),
           createdAt: new Date(),
           updatedAt: new Date(),
           deletedAt: null,
           boardId: boardId.toString(),
-          ...columnPayload
+          ...columnPayload 
         };
   
         // Add the new column to the board's columns array

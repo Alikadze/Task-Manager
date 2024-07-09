@@ -1,34 +1,30 @@
-import { ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, SimpleChanges, inject } from '@angular/core';
 import { BoardFacade } from '../../../core/facades/board.facade';
 import { AsyncPipe, JsonPipe, DatePipe, NgIf, NgFor, CommonModule } from '@angular/common';
 import { ProjectFacade } from '../../../core/facades/project.facade';
 import { ActivatedRoute } from '@angular/router';
-import { Board, Boardpayload, ColumnPayload, Task, } from '../../../core/interfaces/project';
-import { BehaviorSubject, Observable, Subject, catchError, of, switchMap, tap } from 'rxjs';
+import { Board, Boardpayload, Column, ColumnPayload, Task } from '../../../core/interfaces/project';
+import { BehaviorSubject, Observable, Subject, catchError, combineLatest, of, switchMap, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatExpansionModule} from '@angular/material/expansion';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { MatDivider } from '@angular/material/divider';
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-  CdkDrag,
-  CdkDropList,
-  CdkDropListGroup,
-  CdkDragPlaceholder,
-} from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList, CdkDropListGroup, CdkDragPlaceholder, CdkDragPreview, CdkDragMove, CdkDragStart, CdkDragEnd } from '@angular/cdk/drag-drop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BoardTestCopy } from '../../../core/models/Board copy';
 import { AddColFormComponent } from "./add-col-form/add-col-form.component";
 import { SidebarComponent } from "./sidebar/sidebar.component";
-
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { TaskFacade } from '../../../core/facades/task.facade';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatIconModule } from '@angular/material/icon';
+import { AddTaskFormComponent } from '../tasks/add-task-form/add-task-form.component';
 
 @Component({
     selector: 'app-show-board',
     standalone: true,
     templateUrl: './show-board.component.html',
-    styleUrl: './show-board.component.scss',
+    styleUrls: ['./show-board.component.scss'],
     imports: [
         MatSidenavModule,
         MatButtonModule,
@@ -41,52 +37,54 @@ import { SidebarComponent } from "./sidebar/sidebar.component";
         CdkDrag,
         CdkDropListGroup,
         CdkDragPlaceholder,
+        CdkDragPreview,
+        CdkDragPlaceholder,
         ReactiveFormsModule,
         NgFor,
         NgIf,
         AddColFormComponent,
         CommonModule,
-        MatDivider,
-        SidebarComponent
+        SidebarComponent,
+        NgxSkeletonLoaderModule,
+        MatButtonModule,
+        MatMenuModule,
+        MatIconModule,
+        AddTaskFormComponent
     ]
 })
-export class ShowBoardComponent {
+export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   route = inject(ActivatedRoute);
   boardFacade = inject(BoardFacade);
   projectFacade = inject(ProjectFacade);
   cdr = inject(ChangeDetectorRef);
+  taskFacade = inject(TaskFacade);
 
-  showFiller = true; 
-
-  readonly panelOpenState = signal(false);
-
+  showFiller = true;
+  readonly panelOpenState = new BehaviorSubject<boolean>(false);
   isExpaned: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-
-
   boardId!: number;
   projectId: number = this.projectFacade.getProjectId();
 
-  board$: Observable<Board | null> = this.boardFacade.updatedBoard$.pipe(
-    switchMap(updatedBoard => { // Switch to the latest board data
-      if (updatedBoard) {
-        return of(updatedBoard); 
-      } else {
-        return this.boardFacade.getBoardById(this.boardId, this.projectId); // Fetch initial board
-      }
-    }),
-    tap(board => console.log('Board loaded/updated:', board)) // Optional: Log for debugging
-  );
-  
-  
-  errorMessage$: Observable<string | null> | undefined;
+  isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(true);
 
-  private boardSubject = new BehaviorSubject<Board | null>(null);
+  boardWithTasks$!: Observable<[Board, Task[]]>;
+  errorMessage$: Observable<string | null> | undefined;
   private destroy$ = new Subject<void>();
 
+  boardTestCopy!: Boardpayload;
 
   ngOnInit(): void {
-    this.boardId = Number(this.route.snapshot.paramMap.get('id'));
-    this.loadBoard();
+    this.route.paramMap.pipe(
+      tap(params => {
+        this.boardId = Number(params.get('id'));
+        this.loadBoard();
+      })
+    ).subscribe();
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   controlExpland(): void {
@@ -95,48 +93,59 @@ export class ShowBoardComponent {
   }
 
   loadBoard(): void {
-    this.board$ = this.boardFacade.getBoardById(this.boardId, this.projectId).pipe(
-      tap((board) => console.log('Board loaded:', board)), // Log for debugging
-      tap((board) => this.boardFacade.updatedBoardSubject.next(board)), // Set initial value
-      catchError((err) => {
+    this.isLoading$.next(true);
+
+    this.boardWithTasks$ = combineLatest([
+      this.boardFacade.getBoardById(this.boardId, this.projectId),
+      this.taskFacade.getTasks(this.boardId, true)
+    ]).pipe(
+      tap(([board, tasks]) => {
+        console.log('Board loaded:', board);
+        this.transformBoardToBoardTestCopy(board, tasks);
+        this.boardFacade.updatedBoardSubject.next(board);
+        this.isLoading$.next(false);
+      }),
+      catchError(err => {
         this.errorMessage$ = of(err.message ?? 'An unknown error occurred');
         console.error('Error loading board:', err);
+        this.isLoading$.next(false);
         return of(null);
-      }),
-      tap((board) => this.boardSubject.next(board)) // Update the BehaviorSubject
-    );
+      })
+    ) as Observable<[Board, Task[]]>;
   }
 
-  boardTestCopy!: Boardpayload;
-
-  
-  transformBoardToBoardTestCopy(board: Board): void {
-    const columns: ColumnPayload[] = board.columns.map((column, index) => ({
+  transformBoardToBoardTestCopy(board: Board, tasks: Task[]): void {
+    const columns: Column[] = board.columns.map((column, index) => ({
+      id: column.id,
       name: column.name,
       description: column.description,
       position: index,
       boardId: board.id,
       taskStatus: column.taskStatus,
-      tasks: column.tasks?.map(task => ({
+      tasks: tasks.filter(task => task.boardColumnId === column.id).map(task => ({
         id: task.id,
         title: task.name,
         description: task.description,
         status: task.taskStatus
-      }) as Task)
+      })),
+      // Adding the required properties with placeholder values
+      createdAt: column.createdAt || new Date(),
+      updatedAt: column.updatedAt || new Date(),
+      deletedAt: column.deletedAt || null
     }));
-
+    
     this.boardTestCopy = new BoardTestCopy(
       board.name,
       board.description,
       board.position,
       columns
     );
-
+    
     console.log('Transformed Board:', this.boardTestCopy);
   }
-
-
   
+    
+
   dropTest(event: CdkDragDrop<Task[] | undefined>) {
     if (!event.previousContainer.data || !event.container.data) {
       return;
@@ -152,10 +161,49 @@ export class ShowBoardComponent {
         event.currentIndex
       );
     }
+
+    this.saveTaskOrder(); 
   }
+
+  ngAfterViewInit(): void {
+    this.saveTaskOrder();
+    this.cdr.detectChanges();
+  }
+
+  saveTaskOrder() {
+    const updatedColumns = this.boardTestCopy.columns;
   
-  ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
+    updatedColumns.forEach(column => {
+      column.tasks?.forEach((task, index) => {
+        this.taskFacade.updateTaskPositionAndColumn(task.id as number, index, column.id as number).subscribe({
+          next: (updatedTask) => {
+            console.log(`Task ${task.id} position and column updated successfully:`, updatedTask);
+            task.position = index;  
+            task.boardColumnId = column.id as number;  
+          },
+          error: (error) => {
+            console.error(`Error updating task ${task.id} position and column:`, error);
+          }
+        });
+
+        console.log('position:', index, 'column:', column.id, 'task:', task.id);
+        
+      });
+    });
+  
+    this.cdr.detectChanges();
   }
-} 
+
+  onTaskAdded(task: Task): void {
+    const column = this.boardTestCopy.columns.find(col => col.id === task.boardColumnId);
+
+    if (typeof(column?.tasks) === 'undefined') {
+      return
+    }
+
+    if (column) {
+      column.tasks.push(task);
+      this.cdr.detectChanges();
+    }
+  }
+}

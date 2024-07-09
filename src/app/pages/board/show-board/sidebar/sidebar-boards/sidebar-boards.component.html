@@ -1,21 +1,28 @@
 <div class="ml-3 mb-5">
   <div class="text-xl font-semibold text-slate-200">Your boards</div>
 
-  @if (boards$ | async; as boards) { @for (board of boards; track board.id) {
-  <div
-    class="flex gap-2 mt-7 cursor-pointer border-2 border-slate-300 rounded-2xl px-4 py-1 mr-5 transition duration-300 hover:bg-slate-50 hover:bg-opacity-20"
-    [ngClass]="{'selected-board': board.id === selectedBoardId}" 
-    (click)="selectBoard(board.id)"
-  >
-    <div class="flex flex-col gap-1 pt-1">
-      <div class="!text-xl !font-semibold">
-        {{ board.name }}
+  <ng-container *ngIf="boards$ | async as boards">
+    <div *ngFor="let board of boards"
+      class="!relative flex gap-2 mt-7 cursor-pointer border-2 border-slate-300 rounded-2xl px-4 py-1 mr-5 transition duration-300 hover:bg-slate-50 hover:bg-opacity-20"
+      [ngClass]="{'selected-board': board.id === selectedBoardId}"
+      (click)="navigateToBoard(board.id)">
+      <div class="flex flex-col gap-1 pt-1">
+        <div class="!text-xl !font-semibold">{{ board.name }}</div>
+        <div class="text-sm">{{ board.createdAt | date : 'dd/MM/yyyy' }}</div>
+
+        <button class="!absolute !top-1 !right-0.5" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
+          <mat-icon>more_vert</mat-icon>
+        </button>
       </div>
 
-      <div class="text-sm">
-        {{ board.createdAt | date : "dd/MM/YYYY" }}
-      </div>
+      
+
+      <mat-menu #menu="matMenu">
+       <div class="!font-sans text-lg !text-slate-300">
+        {{board.description}}
+       </div>
+      </mat-menu>
+      
     </div>
-  </div>
-  } }
+  </ng-container>
 </div>

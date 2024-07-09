@@ -5,7 +5,7 @@ export class BoardTestCopy {
     public name: string,
     public description: string,
     public position: number,
-    public columns: ColumnPayload[]
+    public columns: Column[]
   ) {
   }
 }

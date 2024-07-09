@@ -12,7 +12,55 @@ mat-drawer ::-webkit-scrollbar {
   display: none;
 }
 
+.skeleton-container ::-webkit-scrollbar {
+  display: none !important;
+}
+
+.ngx-skeleton-loader ::-webkit-scrollbar {
+  display: none !important;
+}
+
+ngx-skeleton-loader ::-webkit-scrollbar {
+  display: none !important;
+}
+
 mat-drawer {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+body.grabbing, .grabbing {
+  cursor: grabbing !important;
+}
+
+.cdk-drag-preview {
+  background-color: #ffffff !important;
+  border-radius: 16px !important;
+  padding: 2px !important;
+  padding-left: 4px !important;
+  width: 13rem !important;
+  overflow: hidden !important;
+  cursor: grabbing !important;
+  transform-origin: center center;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+  width: 13rem;
+  height: auto;
+  background-color: #94a3b8;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.example-box:last-child {
+  border: none;
+}
+
+.task-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }
