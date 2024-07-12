@@ -14,19 +14,16 @@ export class TaskService extends ApiService {
   }
 
   getTasks(boardId: number, isBacklog: boolean, projectId?: number): Observable<Task[]> {
-    const headers = new HttpHeaders().set('project', projectId!.toString());
-    return this.get<Task[]>(`task`, {boardId, isBacklog}, headers )
+    return this.get<Task[]>(`task`, {boardId, isBacklog} )
   }
 
   createTask(taskPayload: TaskPayload, projectId: number): Observable<Task> {
-    const headers = new HttpHeaders().set('project', projectId.toString());
-    return this.post<Task>(`task`, taskPayload , headers )
+    return this.post<Task>(`task`, taskPayload ,  )
   }
 
   updateTask(taskId: number, updatedTask: Partial<Task>, projectId: number): Observable<Task> {
     const url = `${this.apiUrl}/task/${taskId}`;
-    const headers = new HttpHeaders().set('project', projectId.toString());
-    return this.httpClient.put<Task>(url, updatedTask, { headers }).pipe(
+    return this.httpClient.put<Task>(url, updatedTask,).pipe(
       map(response => {
         if (typeof response === 'object' && response !== null) {
           return response as Task;
