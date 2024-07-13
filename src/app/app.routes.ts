@@ -18,11 +18,15 @@ export const routes: Routes = [
       },
       {
         path: 'workspace',
-        loadChildren: () => import('./pages/projects/project.routes').then(m => m.homeRoutes)
+        loadChildren: () => import('./pages/projects/project.routes').then(m => m.workspaceRoutes)
       },
       {
         path: 'board',
-        loadChildren: () => import('./pages/board/board.routes').then(m => m.homeRoutes)
+        loadChildren: () => import('./pages/board/board.routes').then(m => m.boardRoutes)
+      },
+      {
+        path: 'epic',
+        loadChildren: () => import('./pages/epic/epic.routes').then(m => m.epicRoutes)
       }
     ]
   },

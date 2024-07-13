@@ -1,0 +1,58 @@
+<div class="w-full -mt-24 pt-10">
+  <form [formGroup]="form" class="max-w-lg mx-auto p-6 mt-24 mb-10 py-10 bg-emerald-700 text-white rounded-lg shadow-lg space-y-6">
+    <div class="font-sans text-lg font-bold">
+      Create new epic
+    </div>
+    
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Name</mat-label>
+      <input matInput id="name" type="text" formControlName="name" class="text-white">
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Description</mat-label>
+      <textarea matInput id="description" formControlName="description" class="text-white"></textarea>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill" class="w-full">
+      <mat-label>Position</mat-label>
+      <input matInput id="position" type="number" min="0" formControlName="position" class="text-white">
+    </mat-form-field>
+    
+    <div class="flex justify-between">
+      <div class="flex gap-2">
+        <div *ngIf="isSubmitting" class="flex justify-center mt-4">
+          <mat-spinner diameter="40"></mat-spinner>
+        </div>
+  
+        <div>
+          @if (errorMessage) {
+            <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 low-800" role="alert">
+              <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+              </svg>
+              <span class="sr-only">Info</span>
+              <div>
+                <span class="font-medium">Warning alert!</span> {{errorMessage}}.
+              </div>
+            </div>
+          }
+
+          @if (successMessage) {
+            <div class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 en-800" role="alert">
+              <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+              </svg> 
+              <span class="sr-only">Info</span>
+              <div>
+                <span class="font-medium w-auto">Success alert!</span> {{successMessage}}
+              </div>
+            </div>
+          }
+        </div>    
+      </div>
+      
+      <button mat-raised-button color="primary" type="submit" class="bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded" (click)="createEpic()" [disabled]="!form.valid || isSubmitting || isRequestComplete">Submit</button>
+    </div>
+  </form>
+</div>

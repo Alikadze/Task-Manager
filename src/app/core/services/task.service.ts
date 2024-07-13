@@ -13,15 +13,24 @@ export class TaskService extends ApiService {
     return this.get<Task>(`task/${id}`)
   }
 
-  getTasks(boardId: number, isBacklog: boolean, projectId?: number): Observable<Task[]> {
-    return this.get<Task[]>(`task`, {boardId, isBacklog} )
+  getTasksByEpicId(epicId: number): Observable<Task[]> {
+    return this.get<Task[]>(`task`, { epicId });
   }
 
-  createTask(taskPayload: TaskPayload, projectId: number): Observable<Task> {
+  getTasks(boardId: number, isBacklog: boolean): Observable<Task[]> {
+    const params = {
+      boardId: boardId.toString(),
+      isBacklog: isBacklog.toString()
+    };
+    return this.get<Task[]>('task', { params });
+  }
+
+
+  createTask(taskPayload: TaskPayload ): Observable<Task> {
     return this.post<Task>(`task`, taskPayload ,  )
   }
 
-  updateTask(taskId: number, updatedTask: Partial<Task>, projectId: number): Observable<Task> {
+  updateTask(taskId: number, updatedTask: Partial<Task>): Observable<Task> {
     const url = `${this.apiUrl}/task/${taskId}`;
     return this.httpClient.put<Task>(url, updatedTask,).pipe(
       map(response => {
@@ -43,9 +52,6 @@ export class TaskService extends ApiService {
       })
     );
   }
-
-
-  
 
   deleteTask(id: number): Observable<any> {
     return this.delete<Task>(`task/${id}`)

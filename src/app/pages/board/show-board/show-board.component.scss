@@ -140,6 +140,38 @@
   }
 }
 
+.ext-panel-height {
+  max-height: 370px !important;
+  border-radius: 12px !important;
+}
+
+.ext-header {
+  background-color: #f8f8f8 !important;
+}
+
+::ng-deep #mat-expansion-panel-3 {
+  box-shadow: none !important;
+  border-radius: 12px !important;
+}
+
+::ng-deep #mat-expansion-panel-header-3 {
+  background-color: white !important;
+  border-radius: 12px !important;
+}
+
+
+#cdk-accordion-child-3 {
+  background-color: white !important;
+}
+
+.ext-pan {
+  background-color: white !important;
+}
+
+#cdk-accordion-child-3 {
+  background-color: white !important;
+}
+
 .cdk-drag-preview {
   box-sizing: border-box;
   cursor: grabbing !important;
@@ -176,6 +208,6 @@
 }
 
 .example-custom-placeholder.visible {
-  opacity: 1; /* Fully visible */
-  transform: scale(1); /* Original size */
+  opacity: 1;
+  transform: scale(1);
 }

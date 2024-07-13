@@ -1,4 +1,4 @@
-import { Column, ColumnPayload, ProjectResponse, Task2 } from "../interfaces/project";
+import { Column, ColumnPayload, ProjectResponse, Task } from "../interfaces/project";
 
 export class BoardTestCopy {
   constructor(

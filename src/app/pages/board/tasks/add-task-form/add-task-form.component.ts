@@ -1,79 +1,84 @@
-import { Component, EventEmitter, inject, Input, OnInit, Output } from '@angular/core';
-import { TaskFacade } from '../../../../core/facades/task.facade';
+import { AfterViewInit, Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { TaskFacade } from '../../../../core/facades/task.facade';
 import { AuthFacade } from '../../../../core/facades/auth.facade';
-import { MatError, MatFormField, MatFormFieldControl, MatLabel } from '@angular/material/form-field';
-import { MatOption } from '@angular/material/core';
-import { NgIf } from '@angular/common';
+import { AsyncPipe, JsonPipe, NgIf } from '@angular/common';
 import { Task, TaskPayload } from '../../../../core/interfaces/project';
 import { tap } from 'rxjs';
-import { MatInputModule } from '@angular/material/input';
-import { BoardFacade } from '../../../../core/facades/board.facade';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatExpansionPanel } from '@angular/material/expansion';
+import { MatOptgroup, MatOption, MatSelect } from '@angular/material/select';
+import { EpicFacade } from '../../../../core/facades/epic.facade';
+import { RouterLink } from '@angular/router';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-add-task-form',
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    MatFormField,
-    MatOption,
-    MatLabel,
+    MatFormFieldModule,
     MatInputModule,
     NgIf,
-    MatError
+    MatButton,
+    MatSelect,
+    MatOption,
+    AsyncPipe,
+    JsonPipe,
+    RouterLink,
+    MatProgressSpinnerModule
   ],
   templateUrl: './add-task-form.component.html',
-  styleUrl: './add-task-form.component.scss'
+  styleUrls: ['./add-task-form.component.scss']
 })
-export class AddTaskFormComponent {
+export class AddTaskFormComponent implements AfterViewInit {
   taskFacade = inject(TaskFacade);
   authFacade = inject(AuthFacade);
-  boardFacade = inject(BoardFacade);
+  epicFacade = inject(EpicFacade);
 
   userId = this.authFacade.user.id;
 
+  @ViewChild(MatExpansionPanel) expansionPanel!: MatExpansionPanel;
+
   @Input() boardId!: number;
   @Input() boardColumnId!: number | undefined;
+  @Input() taskStatus!: string | undefined;
 
   @Output() taskAdded = new EventEmitter<Task>();
-
-  
+  @Output() taskCreationSuccess = new EventEmitter<void>();
 
 
   form = new FormGroup({
     name: new FormControl('', Validators.required),
     description: new FormControl(''),
     epicId: new FormControl(0, Validators.required),
-    priority: new FormControl(''),   
+    priority: new FormControl('')
   });
 
-  successMessage: string | null | boolean = false;
-  errorMessage: string | null | boolean = false;
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+
 
   loading = false;
 
+  epics$ = this.epicFacade.getEpics();
+
+  ngAfterViewInit(): void {
+    // console.log(this.epics$);
+  }
+
   onSubmit(): void {
     if (this.form.invalid) {
-      if (this.form.get('name')?.hasError('required')) {
-        this.errorMessage = 'Name is required';
-      } else if (this.form.get('epicId')?.hasError('required')) {
-        this.errorMessage = 'Epic is required';
-      } else if (this.form.get('priority')?.hasError('required')) {
-        this.errorMessage = 'Priority is required';
-      } else  if (this.form.get('description')?.hasError('required')) {
-        this.errorMessage = 'Description is required';
-      } else {
-        this.errorMessage = 'Something went wrong';
-      }
-
+      this.errorMessage = 'Please fill in all required fields.';
       return;
     }
 
     this.loading = true;
     this.errorMessage = null;
 
-    const {name, description, epicId, priority} = this.form.value as {name: string, description: string, epicId: number, priority: string};
-
+    const { name, description, epicId, priority } = this.form.value as TaskPayload;
     const taskPayload: TaskPayload = {
       name,
       description,
@@ -81,39 +86,38 @@ export class AddTaskFormComponent {
       priority,
       boardId: this.boardId,
       boardColumnId: this.boardColumnId,
-      taskStatus: 'ToDo',
+      taskStatus: this.taskStatus,
       isBacklog: true,
       issueTypeId: 3,
-      assigneeId: this.userId,
+      assigneeId: this.userId
     };
 
     this.taskFacade.createTask(taskPayload).pipe(
       tap({
         next: (createdTask) => {
-          console.log("Created Task:", createdTask); // Verify this log to check the task structure
           this.loading = false;
+          
           this.successMessage = "Task added successfully!";
-        
-          // Emit the created task to the parent component
-          // this.taskAdded.emit(createdTask);
-        
-          setTimeout(() => {
-            this.errorMessage = null;
-            this.form.reset({
-              name: '',
-              description: '',
-              epicId: 1,
-              priority: ''
-            });
-          }, 2000);
+          this.taskAdded.emit(createdTask);
+          this.taskCreationSuccess.emit(); // Emit event to signal task creation success
+
+          setTimeout(() => this.resetForm(), 2000);
         },
         error: (error) => {
-          console.log(error);
-          this.errorMessage = "Failed to add column.";
-          this.successMessage = null;
+          this.errorMessage = error;
           this.loading = false;
         }
       })
     ).subscribe();
+  }
+
+  private resetForm(): void {
+    this.errorMessage = null;
+    this.form.reset({
+      name: ' ',
+      description: '',
+      epicId: 0,
+      priority: ''
+    });
   }
 }

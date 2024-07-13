@@ -11,14 +11,14 @@
 <div class="font-sans">
   @for (project of allProjetcs$ | async; track project.id) {
     <div class="mb-2">
-      <mat-expansion-panel>
+      <mat-expansion-panel #addTaskExpansionPanel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             <div class="flex gap-2 align-middle pl-2 py-2 pr-7 rounded-xl text-slate-800">
               <div [style.backgroundColor]="project.color" class="w-auto h-auto px-1 pt-0.5 font-semibold rounded">
                 {{project.abbreviation}}
               </div>
-              <div class="mt-0.5 font-medium">
+              <div class="mt-0.5 font-medium overflow-hidden">
                 {{project.name}}
               </div>
             </div>
@@ -37,7 +37,7 @@
           <hr class="my-3">
 
           <button 
-            (click)="selectProject(project)"
+            (click)="selectProject(project, addTaskExpansionPanel)"
             class="w-full"
             mat-raised-button
           >

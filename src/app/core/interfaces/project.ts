@@ -40,7 +40,7 @@ export interface Board {
   projectId: number
   project: ProjectResponse
   columns: Column[]
-  tasks: Task2[]
+  tasks: Task[]
   createdAt: string
   updatedAt: string
   deletedAt: string
@@ -103,8 +103,7 @@ export interface TaskPayload {
   assigneeId: number,
   issueTypeId: number,
   isBacklog: boolean,
-  taskStatus: string,
-  // taskProperty: TaskProperty
+  taskStatus: string | undefined,
 }
 
 export interface TaskProperty {
@@ -204,122 +203,3 @@ export interface DeletedBy {
   projects: string[]
 }
 
-export interface Task2 {
-  id: number
-  name: string
-  description: string
-  issueTypeId: number
-  issueType: IssueType2
-  epicId: number
-  epic: Epic2
-  projectId: number
-  project: string
-  boardId: number
-  board: string
-  boardColumnId: number
-  boardColumn: string
-  isBacklog: boolean
-  priority: string
-  taskStatus: string
-  assigneeId: number
-  assignee: Assignee2
-  reporterId: number
-  reporter: Reporter2
-  createdById: number
-  createdBy: CreatedBy2
-  deletedById: number
-  deletedBy: DeletedBy2
-  createdAt: string
-  updatedAt: string
-  deletedAt: string
-}
-
-export interface IssueType2 {
-  id: number
-  name: string
-  description: string
-  icon: string
-  color: string
-  isActive: boolean
-  type: string
-  issueTypeColumns: IssueTypeColumn2[]
-  createdAt: string
-  updatedAt: string
-  deletedAt: string
-}
-
-export interface IssueTypeColumn2 {
-  id: number
-  name: string
-  filedName: string
-  type: string
-  isRequired: boolean
-  issueTypeId: number
-  issueType: string
-  createdAt: string
-  updatedAt: string
-  deletedAt: string
-}
-
-export interface Epic2 {
-  id: number
-  name: string
-  description: string
-  projectId: number
-  position: number
-  createdAt: string
-  updatedAt: string
-  deletedAt: string
-}
-
-export interface Assignee2 {
-  id: number
-  createdAt: string
-  firstName: string
-  lastName: string
-  email: string
-  mobileNumber: string
-  isActive: boolean
-  userPermissions: string[]
-  roles: string[]
-  projects: string[]
-}
-
-export interface Reporter2 {
-  id: number
-  createdAt: string
-  firstName: string
-  lastName: string
-  email: string
-  mobileNumber: string
-  isActive: boolean
-  userPermissions: string[]
-  roles: string[]
-  projects: string[]
-}
-
-export interface CreatedBy2 {
-  id: number
-  createdAt: string
-  firstName: string
-  lastName: string
-  email: string
-  mobileNumber: string
-  isActive: boolean
-  userPermissions: string[]
-  roles: string[]
-  projects: string[]
-}
-
-export interface DeletedBy2 {
-  id: number
-  createdAt: string
-  firstName: string
-  lastName: string
-  email: string
-  mobileNumber: string
-  isActive: boolean
-  userPermissions: string[]
-  roles: string[]
-  projects: string[]
-}
