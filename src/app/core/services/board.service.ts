@@ -10,36 +10,30 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class BoardService extends ApiService{
 
   getBoards(projectId?: number): Observable<Board[]> {
-    const headers = new HttpHeaders().set('project', projectId!.toString());
-    return this.get<Board[]>('board', null, headers);
+    return this.get<Board[]>('board', null);
   }
 
   createBoard(data: any, projectId: number): Observable<Board> {
-    const headers = new HttpHeaders().set('project', projectId.toString());
-    return this.post<Board>('board', data, headers);
+    return this.post<Board>('board', data);
   }
 
   updateBoard(data: any, boardId: number, projectId: number): Observable<Board> {
-    const headers = new HttpHeaders().set('project', projectId.toString());
     const url = `${this.apiUrl}/board/${boardId}`;
-    return this.put<Board>(url, data, headers);
+    return this.put<Board>(url, data);
   }
 
   getBoard(id: number, projectId: number): Observable<Board> {
-    const headers = new HttpHeaders().set('project', projectId!.toString());
-    return this.get<Board>(`board/${id}`, null, headers);
+    return this.get<Board>(`board/${id}`, null);
   }
 
   deleteBoard(id: number, projectId: number): Observable<any> {
-    const headers = new HttpHeaders().set('project', projectId.toString());
-    return this.delete(`board/${id}`, null, headers);
+    return this.delete(`board/${id}`, null);
   }
 
   getBoardById(boardId: number, projectId: number): Observable<Board> {
-    const headers = new HttpHeaders().set('project', projectId.toString());
     const url = `${this.apiUrl}/board/${boardId}`;
 
-    return this.httpClient.get<Board>(url, { headers }).pipe(
+    return this.httpClient.get<Board>(url,).pipe(
       map(response => {
         if (typeof response === 'object' && response !== null) {
           return response as Board;
@@ -61,28 +55,23 @@ export class BoardService extends ApiService{
   }
 
   addBoardColumn(boardId: string | number, projectId: number, columnPayload: ColumnPayload): Observable<Board> {
-    const headers = new HttpHeaders().set('project', projectId.toString());
-    return this.get<Board>(`board/${boardId.toString()}`, null, headers).pipe(
+    return this.get<Board>(`board/${boardId.toString()}`, null).pipe(
       map(board => {
-        // Create a new column object with the required properties
         const newColumn: Column = {
-          id: 0,
           board: boardId.toString(),
           createdAt: new Date(),
           updatedAt: new Date(),
           deletedAt: null,
           boardId: boardId.toString(),
-          ...columnPayload
+          ...columnPayload 
         };
-  
-        // Add the new column to the board's columns array
+
         board.columns.push(newColumn);
         return board;
       }),
       switchMap(updatedBoard => {
-        // Use PUT to update the board with the new column
         const url = `board/${boardId.toString()}`;
-        return this.put<Board>(url, updatedBoard, headers);
+        return this.put<Board>(url, updatedBoard);
       })
     );
   }

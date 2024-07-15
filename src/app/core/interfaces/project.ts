@@ -20,7 +20,7 @@ export interface Boardpayload {
   name: string,
   description: string,
   position: number,
-  columns: ColumnPayload[]
+  columns: Column[]
 }
 
 export interface ColumnPayload {
@@ -47,20 +47,22 @@ export interface Board {
 }
 
 export interface Column {
-  id?: number
-  name?: string
-  description?: string
-  position?: number
-  boardId?: string | number
-  board?: string
-  tasks?: Task[]
-  taskStatus?: string
-  createdAt: Date
-  updatedAt: Date
-  deletedAt: Date | null
+  id?: number;
+  name?: string;
+  description?: string;
+  position?: number;
+  boardId?: string | number;
+  board?: string;
+  tasks?: Task[];
+  taskStatus?: string;
+  createdAt: Date;
+  updatedAt: Date;
+  deletedAt: Date | null;
 }
 
+
 export interface Task {
+title: any;
   id?: number
   name?: string
   description?: string
@@ -88,6 +90,28 @@ export interface Task {
   createdAt?: string
   updatedAt?: string
   deletedAt?: string
+  position?: number
+}
+
+export interface TaskPayload {
+  boardId: number,
+  boardColumnId: number | undefined,
+  name: string,
+  description: string,
+  epicId: number,
+  priority: string,
+  assigneeId: number,
+  issueTypeId: number,
+  isBacklog: boolean,
+  taskStatus: string,
+  // taskProperty: TaskProperty
+}
+
+export interface TaskProperty {
+  name: string,
+  fieldName: string, 
+  value: string,
+  isRequired: boolean
 }
 
 export interface IssueType {
