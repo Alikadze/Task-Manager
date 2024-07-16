@@ -12,14 +12,13 @@ export const projectInterceptor: HttpInterceptorFn = (
     req: HttpRequest<unknown>, 
     next: HttpHandlerFn
 ): Observable<HttpEvent<unknown>> => {
-
     const projectFacade = inject(ProjectFacade);
-    const project = projectFacade.getProject();
+    const projectId = projectFacade.getProjectId();
 
-    if (project) {
+    if (projectId) {
         req = req.clone({
             setHeaders: {
-                'project': project.id.toString()
+                'project': projectId.toString()
             }
         });
     }

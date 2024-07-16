@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, Output, inject } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ProjectFacade } from '../../../core/facades/project.facade';
-import { ProjectPayload, ProjectResponse } from '../../../core/interfaces/project';
+import { ProjectPayload } from '../../../core/interfaces/project';
 import { catchError, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import {MatInputModule} from '@angular/material/input';
@@ -24,11 +24,12 @@ import { ProjectColorService } from '../../../core/services/project-color.servic
 })
 export class AddProjectComponent implements AfterViewInit{
   form = new FormGroup({
-    name: new FormControl('',Validators.required),
-    abbreviation: new FormControl('',Validators.required),
-    description: new FormControl('',Validators.required),
-    color: new FormControl<string>('#ffff',Validators.required)
+    name: new FormControl('',[Validators.required, Validators.maxLength(8)]),
+    abbreviation: new FormControl('',[Validators.required, Validators.maxLength(4)]),
+    description: new FormControl('',[Validators.required]),
+    color: new FormControl<string>('#ffff',[Validators.required])
   })
+
 
   projectFacade = inject(ProjectFacade);
   router = inject(Router);
@@ -55,7 +56,12 @@ export class AddProjectComponent implements AfterViewInit{
         this.errorMessage = 'description is required';
       } else if (this.form.get('color')?.errors?.['required']) {
         this.errorMessage = 'color is required';
-      } 
+      } else if (this.form.get('name')?.errors?.['maxlength']) {
+        this.errorMessage = 'name cannot be longer than 8 characters';
+      } else if (this.form.get('abbreviation')?.errors?.['maxlength']) {
+        this.errorMessage = 'abbreviation cannot be longer than 4 characters';
+      }
+
       return;
     }
 

@@ -1,10 +1,10 @@
-import { Component, EventEmitter, OnInit, Output, inject, signal } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, QueryList, ViewChild, ViewChildren, inject, signal, viewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthFacade } from '../../../../core/facades/auth.facade';
 import { ProjectFacade } from '../../../../core/facades/project.facade';
 import { ProjectColorService } from '../../../../core/services/project-color.service';
 import { AsyncPipe, JsonPipe, NgFor } from '@angular/common';
-import {MatExpansionModule} from '@angular/material/expansion';
+import {MatExpansionModule, MatExpansionPanel} from '@angular/material/expansion';
 import {MatDividerModule} from '@angular/material/divider';
 import {MatButtonModule} from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
@@ -39,13 +39,18 @@ export class LeftSideComponent implements OnInit {
 
   uniqueColors$!: Observable<string[]>;
 
-  selectProject(project: any) {
+  @ViewChildren('addTaskExpansionPanel') addTaskExpansionPanels!: QueryList<MatExpansionPanel>;
+
+
+  selectProject(project: any, panel: MatExpansionPanel) {
     this.router.navigate(['/workspace', project.id]).then(() => {
       window.scrollTo({
         top: 0,
         behavior: 'smooth'
       });
     });
+
+    panel.close();
   }
 
   ngOnInit(): void {

@@ -50,7 +50,7 @@ export class BoardFacade {
     );
   }
   
-  put<T>(url: string, updatedBoard: { columns: ColumnPayload[]; id: number; name: string; description: string; position: number; projectId: number; project: import("../interfaces/project").ProjectResponse; tasks: import("../interfaces/project").Task2[]; createdAt: string; updatedAt: string; deletedAt: string; }, headers: HttpHeaders): any {
+  put<T>(url: string, updatedBoard: { columns: ColumnPayload[]; id: number; name: string; description: string; position: number; projectId: number; project: import("../interfaces/project").ProjectResponse; tasks: import("../interfaces/project").Task[]; createdAt: string; updatedAt: string; deletedAt: string; }, headers: HttpHeaders): any {
     throw new Error('Method not implemented.');
   }
 

@@ -1,15 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, SimpleChanges, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, NgZone, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { BoardFacade } from '../../../core/facades/board.facade';
 import { AsyncPipe, JsonPipe, DatePipe, NgIf, NgFor, CommonModule } from '@angular/common';
 import { ProjectFacade } from '../../../core/facades/project.facade';
 import { ActivatedRoute } from '@angular/router';
 import { Board, Boardpayload, Column, ColumnPayload, Task } from '../../../core/interfaces/project';
-import { BehaviorSubject, Observable, Subject, catchError, combineLatest, of, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, catchError, combineLatest, of, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatExpansionModule } from '@angular/material/expansion';
+import { MatExpansionModule, MatExpansionPanel } from '@angular/material/expansion';
 import { MatDivider } from '@angular/material/divider';
-import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList, CdkDropListGroup, CdkDragPlaceholder, CdkDragPreview, CdkDragMove, CdkDragStart, CdkDragEnd } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem, CdkDrag, CdkDropList, CdkDropListGroup, CdkDragPlaceholder, CdkDragPreview } from '@angular/cdk/drag-drop';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BoardTestCopy } from '../../../core/models/Board copy';
 import { AddColFormComponent } from "./add-col-form/add-col-form.component";
@@ -24,7 +24,7 @@ import { AddTaskFormComponent } from '../tasks/add-task-form/add-task-form.compo
     selector: 'app-show-board',
     standalone: true,
     templateUrl: './show-board.component.html',
-    styleUrls: ['./show-board.component.scss'],
+    styleUrl: './show-board.component.scss',
     imports: [
         MatSidenavModule,
         MatButtonModule,
@@ -58,6 +58,10 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
   projectFacade = inject(ProjectFacade);
   cdr = inject(ChangeDetectorRef);
   taskFacade = inject(TaskFacade);
+  ngZone = inject(NgZone);
+
+  @ViewChild('addTaskExpansionPanel') addTaskExpansionPanel!: MatExpansionPanel;
+
 
   showFiller = true;
   readonly panelOpenState = new BehaviorSubject<boolean>(false);
@@ -128,7 +132,6 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
         description: task.description,
         status: task.taskStatus
       })),
-      // Adding the required properties with placeholder values
       createdAt: column.createdAt || new Date(),
       updatedAt: column.updatedAt || new Date(),
       deletedAt: column.deletedAt || null
@@ -198,12 +201,23 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     const column = this.boardTestCopy.columns.find(col => col.id === task.boardColumnId);
 
     if (typeof(column?.tasks) === 'undefined') {
-      return
+      return;
     }
 
+
+    let columTasks = column.tasks as Task[];
+
     if (column) {
-      column.tasks.push(task);
-      this.cdr.detectChanges();
+        this.ngZone.run(() => {
+        columTasks.push(task);
+        this.cdr.detectChanges();  // Ensure the change detection is triggered
+      });
+
+      this.addTaskExpansionPanel.close();
+    }
+
+    if (this.addTaskExpansionPanel && this.addTaskExpansionPanel.expanded) {
+      this.addTaskExpansionPanel.close();
     }
   }
 }

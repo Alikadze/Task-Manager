@@ -58,7 +58,7 @@
 
           <div cdkDropListGroup class="flex gap-10 !pl-2 overflow-x-scroll board-container">
             
-              <div *ngFor="let column of boardTestCopy.columns; let i = index"  class="!relative rounded-lg min-h-32 bg-slate-200 min-w-56 board-column overflow-y-auto" [ngClass]="{'expanded-column' : isExpaned | async}">
+              <div *ngFor="let column of boardTestCopy.columns; let i = index"  class="!relative rounded-lg min-h-32 bg-slate-200 min-w-56 board-column overflow-y-auto overflow-x-hidden" [ngClass]="{'expanded-column' : isExpaned | async}">
                
                 
                 <button class="!absolute !top-0.5 !right-1" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
@@ -77,13 +77,27 @@
                   <mat-divider></mat-divider>
                 </div>
 
-                @if (i === 0) {
-                  <app-add-task-form
-                    [boardId]="board[0].id"
-                    [boardColumnId]="column!.id"
-                    (taskAdded)="onTaskAdded($event)"
-                  />
-                }
+                <div class="mb-1.5 mx-0 mt-0 p-0 bg-transparent">
+                  @if (i === 0) {
+                    <mat-expansion-panel class="!w-56 ext-panel-height ext-pan" #addTaskExpansionPanel>
+                      <mat-expansion-panel-header class="ext-header">
+
+                        <mat-panel-title>
+                          <div class="!text-black !font-semibold !text-lg font-sans pt-1">Add Task</div>
+                        </mat-panel-title>
+
+                      </mat-expansion-panel-header>
+
+                      <app-add-task-form
+                        [boardId]="board[0].id"
+                        [boardColumnId]="column!.id"
+                        [taskStatus]="column.taskStatus"
+                        (taskAdded)="onTaskAdded($event)"
+                        #addTaskExpansionPanel
+                        />
+                    </mat-expansion-panel>
+                  }
+                </div>
 
                 <div
                   cdkDropList
@@ -99,11 +113,11 @@
                     <div class="example-custom-placeholder" *cdkDragPlaceholder></div> 
 
                     <div>
-                      <div class="!text-black !font-semibold !text-lg font-sans !pl-3 !py-1">{{ task.title }}</div>
+                      <div class="!text-black !font-semibold !text-lg font-sans !pl-3 !py-1">{{ task.name ? task.name : task.title}}</div>
                       
                       <div *cdkDragPreview class="examlpe-box">
                         <div class="!text-black !font-semibold !text-lg font-sans !pl-3 !py-1">
-                          {{ task.title }}
+                          {{ task.title ? task.title : task.name}}
                         </div> 
                         <div class="!pl-3 !pt-1 !font-normal !font-sans">
                           {{ task.description }}

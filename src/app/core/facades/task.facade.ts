@@ -19,16 +19,16 @@ export class TaskFacade {
   }
 
   getTasks(boardId: number, isBacklog: boolean): Observable<Task[]> {
-    return this.taskService.getTasks(boardId, isBacklog, this.projectId);
+    return this.taskService.getTasks(boardId, isBacklog);
   }
 
   createTask(taskPayload: TaskPayload): Observable<Task> {
-    return this.taskService.createTask(taskPayload, this.projectId);
+    return this.taskService.createTask(taskPayload,);
   }
 
   updateTaskPositionAndColumn(taskId: number, position: number, boardColumnId: number): Observable<Task> {
     const updatedTask = { position, boardColumnId };
-    return this.taskService.updateTask(taskId, updatedTask, this.projectId).pipe(
+    return this.taskService.updateTask(taskId, updatedTask).pipe(
       tap((updatedTask) => {
         console.log(`Task ${taskId} position and column updated successfully:`, updatedTask);
       }),
@@ -37,6 +37,10 @@ export class TaskFacade {
         return throwError(() => new Error(`Error updating task ${taskId} position and column: ${error.message || 'Unknown error'}`));
       })
     );
+  }
+
+  getTasksByEpicId(epicId: number): Observable<Task[]> {
+    return this.taskService.getTasksByEpicId(epicId);
   }
 
   deleteTask(id: number): Observable<any> {
