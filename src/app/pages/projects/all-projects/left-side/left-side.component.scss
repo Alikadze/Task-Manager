@@ -1,0 +1,11 @@
+/* Make the background of mat-expansion-panel transparent */
+::ng-deep .mat-expansion-panel {
+  background-color:  white !important;
+  color: rgb(38 38 38) !important;
+}
+
+/* Optional: Make the header transparent as well */
+::ng-deep .mat-expansion-panel-header {
+  background-color:  white !important;
+  color: rgb(38 38 38) !important;
+}

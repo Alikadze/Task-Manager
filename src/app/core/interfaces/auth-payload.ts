@@ -1,6 +1,6 @@
 export interface AuthPayload {
-  firstName: string;
-  lastName: string;
+  firstName?: string;
+  lastName?: string;
   email: string;
   password: string;
 }
@@ -24,7 +24,7 @@ export interface User {
 }
 
 export interface Token {
-  expiresIn: number
+  expiresIn?: number
   accessToken: string
   refreshToken: string
 }

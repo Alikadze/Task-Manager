@@ -1,0 +1,26 @@
+.button {
+  position: relative;
+  background-color: #6a75cc;
+  color: white;
+  width: 150px;
+  height: 40px;
+  border-radius: 20px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.button::after {
+  content: '\2192'; /* Right arrow Unicode character */
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  transition: transform 0.3s;
+}
+
+.button:hover {
+  background-color: #5c68b2;
+}
+
+.button:hover::after {
+  transform: translateX(5px); /* Move the arrow slightly to the right on hover */
+}

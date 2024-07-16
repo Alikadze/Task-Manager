@@ -89,9 +89,10 @@ export class RegisterComponent implements OnDestroy {
         )
         .subscribe((res) => {
             if (res) {
-                this.successMessage = 'You have successfully Signed Up';
+                this.successMessage = 'Create Your First Project';
                   setTimeout(() => {
-                    this.router.navigate(['/'])
+                    this.router.navigate(['/workspace/add'])
+                    window.scrollTo(0, 0);
                   }, 2000)
               }
         })
@@ -101,7 +102,7 @@ export class RegisterComponent implements OnDestroy {
     ngOnDestroy(): void {
       this.sub$.next(null);
       this.sub$.complete(); 
-  }
+    }
 }
 
 

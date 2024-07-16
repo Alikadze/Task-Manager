@@ -1,0 +1,58 @@
+<button routerLink="add" class="w-full" mat-stroked-button>Add new project</button>
+
+<div class="my-3">
+  <mat-divider></mat-divider>
+</div>
+
+<div class="font-sans mb-4 text-base ml-2.5">
+  Workspaces
+</div>
+
+<div class="font-sans">
+  @for (project of allProjetcs$ | async; track project.id) {
+    <div class="mb-2">
+      <mat-expansion-panel #addTaskExpansionPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <div class="flex gap-2 align-middle pl-2 py-2 pr-7 rounded-xl text-slate-800">
+              <div [style.backgroundColor]="project.color" class="w-auto h-auto px-1 pt-0.5 font-semibold rounded">
+                {{project.abbreviation}}
+              </div>
+              <div class="mt-0.5 font-medium overflow-hidden">
+                {{project.name}}
+              </div>
+            </div>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div class="font-normal">
+          <div>
+            <div class="font-semibold mb-1">
+              Description
+            </div>
+            <div class="overflow-auto break-words">
+              {{project.description}}
+            </div>
+          </div>
+
+          <hr class="my-3">
+
+          <button 
+            (click)="selectProject(project, addTaskExpansionPanel)"
+            class="w-full"
+            mat-raised-button
+          >
+            Go to {{project.name}} 
+          </button>
+
+          <hr class="my-3">
+
+          <div class="bg-slate-100 p-3 rounded-xl">
+            <div class="font-medium mb-2">Try Premium</div>
+            <div class="text-sm">Get unlimited boards. all the views, unlimited automations, and more</div>
+          </div>
+        </div>
+      </mat-expansion-panel>
+
+    </div>
+  }
+</div>

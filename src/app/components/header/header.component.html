@@ -1,78 +1,115 @@
 <header class='flex shadow-md py-4 px-4 sm:px-10 bg-gray-900 font-[sans-serif] min-h-[70px] tracking-wide relative z-50'>
   <div class='flex flex-wrap items-center justify-between gap-5 w-full'>
-    <a routerLink="/">
-      <img src="assets/icons/tast-managment-high-resolution-logo-white-transparent.png" alt="logo" class='w-30 h-30 cursor-pointer max-w-[100px]'/>
-    </a>
-    
-    <div 
-      class='max-lg:hidden lg:!block max-lg:before:fixed max-lg:before:bg-black max-lg:before:opacity-50 max-lg:before:inset-0 max-lg:before:z-50'>
-    
-      <ul
-        class='lg:flex gap-x-5 max-lg:space-y-3 max-lg:fixed max-lg:bg-white max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
-        <li class='mb-6 hidden max-lg:block'>
-          <a>
-            <img src="https://readymadeui.com/readymadeui.svg" alt="logo" class='w-36' />
-          </a>
-        </li>
 
-        <li class='max-lg:border-b border-gray-300 max-lg:py-3 px-3 cursor-pointer'>
-          <a 
-            class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
+    <div>
+      <a routerLink="/">
+        <img src="assets/images/tast-managment-high-resolution-logo-white-transparent__1_-removebg-preview.png" alt="logo" class='w-30 h-30 cursor-pointer max-w-[100px]'/>
+      </a>
+    </div>
+
+
+    <div class="hidden md:flex">
+      <ul class="flex gap-x-5">
+        <li class='py-3 px-3 cursor-pointer'>
+          <a routerLink="/" class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
             Home
           </a>
         </li>
-
-        <li class='max-lg:border-b border-gray-300 max-lg:py-3 px-3 cursor-pointer'>
-          <a class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
-            Team
+        <li id="authed" *ngIf="isAuthenticated" class='py-3 px-3 cursor-pointer'>
+          <a routerLink="workspace" class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
+            Workspace
           </a>
         </li>
-
-        <li class='max-lg:border-b border-gray-300 max-lg:py-3 px-3  cursor-pointer'>
-          <a class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
-            Feature
+        <li id="notAuthed" *ngIf="!isAuthenticated" class='py-3 px-3 cursor-pointer'>
+          <a routerLink="auth" class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
+            Workspace
           </a>
         </li>
-
-        <li class='max-lg:border-b border-gray-300 max-lg:py-3 px-3  cursor-pointer'>
-          <a class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
-            Blog
-          </a>
-        </li>
-
-        <li class='max-lg:border-b border-gray-300 max-lg:py-3 px-3 cursor-pointer'>
-          <a class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
+        <li class='py-3 px-3 cursor-pointer'>
+          <a routerLink="about" class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
             About
           </a>
         </li>
-        
-        <li class='max-lg:border-b border-gray-300 max-lg:py-3 px-3  cursor-pointer'>
-          <a class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
+        <li class='py-3 px-3 cursor-pointer'>
+          <a routerLink="contact" class='hover:text-[#7997b8] text-[#d3c9c9] block font-semibold text-[15px]'>
             Contact
           </a>
         </li>
       </ul>
     </div>
 
-    <div class='flex max-lg:ml-auto space-x-3'>
-      <button
-        class='px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#3f93ec] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]'>
-        Login
-      </button>
-      
-      <button
-        class='px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#3f93ec] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]'>
-        Sign up
+
+    <div *ngIf="isAuthenticated" class="flex justify-around">
+      <button (click)="logout()" class='px-4 py-2 mr-2 text-sm rounded-full font-bold text-white border-2 border-[#f75959] bg-[#f04a4a] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]'>
+        Logout
       </button>
 
-      <button class='lg:hidden'>
-        <svg class="w-7 h-7" fill="#d3c9c9" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-          <path fill-rule="evenodd"
-            d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-            clip-rule="evenodd">
-          </path>
-        </svg>
+      <div class="block md:hidden">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <span class="w-full h-full flex justify-center items-center">
+            <mat-icon>menu</mat-icon>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="!isAuthenticated" class='flex gap-2'>
+      <button routerLink="auth" class='px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#3f93ec] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]'>
+        Login
       </button>
+      <button routerLink="auth/register" class='px-4 py-2 text-sm rounded-full font-bold text-white border-2 border-[#007bff] bg-[#3f93ec] transition-all ease-in-out duration-300 hover:bg-transparent hover:text-[#007bff]'>
+        Sign up
+      </button>
+      
+      <div class="block md:hidden">
+        <button mat-button [matMenuTriggerFor]="menu">
+          <span class="w-full h-full flex justify-center items-center">
+            <mat-icon>menu</mat-icon>
+          </span>
+        </button>
+      </div>
     </div>
   </div>
 </header>
+
+<mat-menu #menu="matMenu">
+  <button mat-menu-item>
+    <mat-icon>home</mat-icon>
+    <span>
+    
+      <a routerLink="/">
+        Home
+      </a>
+    </span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon>apps</mat-icon>
+    <span>
+      @if (isAuthenticated) {
+        <a routerLink="/workspace">
+          Workspace
+        </a>
+      } @else {
+        <a routerLink="/auth">
+          Workspace
+        </a>
+      }
+    </span>  
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon>groups_2</mat-icon>
+    <span routerLink="about">
+      About
+    </span>
+  </button>
+
+  <button mat-menu-item>
+    <mat-icon>contact_page</mat-icon>
+    <span routerLink="contact">
+      Contact
+    </span>
+  </button>
+
+</mat-menu>

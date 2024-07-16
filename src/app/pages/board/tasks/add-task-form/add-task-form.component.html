@@ -1,0 +1,53 @@
+<form [formGroup]="form" (ngSubmit)="onSubmit()" class="flex flex-col">
+
+  <!-- {{epics$ | async | json}} -->
+
+  <mat-form-field appearance="fill">
+    <mat-label>Name</mat-label>
+    <input matInput formControlName="name" class="-mt-6">
+    <mat-error *ngIf="form.get('name')?.hasError('required')">Name is required</mat-error>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" class="-mt-4">
+    <mat-label>Description</mat-label>
+    <textarea matInput formControlName="description"></textarea>
+  </mat-form-field>
+
+  @if (epics$ | async; as epics) {
+    <mat-form-field appearance="fill" class="-mt-4">
+      <mat-label>Epic</mat-label>
+      <mat-select formControlName="epicId">
+
+        @for (epic of epics; track epic.id) {
+          <mat-option [value]="epic.id">{{epic.name}}</mat-option>
+        }
+
+        @if (epics.length === 0) {
+          <mat-option disabled>No epics found</mat-option>
+
+          <a class="!ml-10 !text-slate-500 !transition !duration-200 hover:!text-slate-600 !text-lg" routerLink="/">Add now</a>
+        }
+
+      </mat-select>
+    </mat-form-field>
+  }
+
+  <mat-form-field appearance="fill" class="-mt-4">
+    <mat-label>Priority</mat-label>
+    <mat-select formControlName="priority">
+      <mat-option value="HIGH">High</mat-option>
+      <mat-option value="MEDIUM">Medium</mat-option>
+      <mat-option value="LOW">Low</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+
+  <button mat-flat-button type="submit" [disabled]="loading" class="-mt-4 -mb-2">Submit</button>
+
+</form>
+
+@if (loading) {
+  <div class="absolute top-2 right-14">
+    <mat-spinner diameter="50"></mat-spinner>
+  </div>
+}

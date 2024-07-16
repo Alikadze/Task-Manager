@@ -1,0 +1,154 @@
+<mat-drawer-container class="example-container" autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+   
+    <app-sidebar/>
+
+  </mat-drawer>
+
+  <div class="loading-position">
+    @if (isLoading$ | async){
+      <div class="skeleton-container">
+        <div class="overflow-hidden w-fit h-fit">
+          <ngx-skeleton-loader class="!overflow-hidden" count="5" appearance="circle" size="5rem"></ngx-skeleton-loader>
+        </div>
+      </div>
+    }
+  </div>
+
+  <div class="example-sidenav-content overflow-hidden">
+    <button type="button" class="toggle-button" mat-button (click)="drawer.toggle()"></button>
+
+    <div class="content !h-full">
+      <ng-container *ngIf="boardWithTasks$ | async as board" class="!h-full">
+        <div class="w-full">
+          <mat-expansion-panel  (click)="controlExpland()">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <h1 class="pt-4 pl-3 !font-semibold !text-2xl !text-stone-800">{{board[0].name}}</h1>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="text-content">
+              <div class="!text-black text-xl !font-semibold">
+                Description
+              </div>
+              <div class="!text-base !text-gray-800 overflow-auto break-words">
+                {{board[0].description}}
+              </div>
+              <div class="my-3">
+                <mat-divider></mat-divider>
+              </div>
+              <div class="!text-black text-xl !font-semibold">
+                Created at
+              </div>
+              <p class="!text-base !text-gray-800 overflow-auto break-words">{{board[0].createdAt| date: 'dd/MM/yyyy'}}</p>
+            </div>
+          </mat-expansion-panel>
+        </div>
+  
+        <div class="working-area h-full" [ngClass]="{'expanded-working-area' : isExpaned | async}">
+
+          
+
+          <div cdkDropListGroup class="flex gap-10 !pl-2 overflow-x-scroll board-container">
+            
+              <div *ngFor="let column of boardTestCopy.columns; let i = index"  class="!relative rounded-lg min-h-32 bg-slate-200 min-w-56 board-column overflow-y-auto overflow-x-hidden" [ngClass]="{'expanded-column' : isExpaned | async}">
+               
+                
+                <button class="!absolute !top-0.5 !right-1" mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu" (click)="$event.stopPropagation()">
+                  <mat-icon class="!text-slate-500" >more_vert</mat-icon>
+                </button>
+
+                <mat-menu #menu="matMenu" class="!bg-slate-600">
+                  <div class="!font-sans text-base !text-slate-300 !p-1">
+                   {{column.description}}
+                  </div>
+                </mat-menu>
+
+                <h4 class="text-slate-600 pl-3 pt-1 !text-xl !font-bold break-words overflow-auto">{{ column.name }}</h4>
+               
+                <div class="my-1">
+                  <mat-divider></mat-divider>
+                </div>
+
+                <div class="mb-1.5 mx-0 mt-0 p-0 bg-transparent">
+                  @if (i === 0) {
+                    <mat-expansion-panel class="!w-56 ext-panel-height ext-pan" #addTaskExpansionPanel>
+                      <mat-expansion-panel-header class="ext-header">
+
+                        <mat-panel-title>
+                          <div class="!text-black !font-semibold !text-lg font-sans pt-1">Add Task</div>
+                        </mat-panel-title>
+
+                      </mat-expansion-panel-header>
+
+                      <app-add-task-form
+                        [boardId]="board[0].id"
+                        [boardColumnId]="column!.id"
+                        [taskStatus]="column.taskStatus"
+                        (taskAdded)="onTaskAdded($event)"
+                        #addTaskExpansionPanel
+                        />
+                    </mat-expansion-panel>
+                  }
+                </div>
+
+                <div
+                  cdkDropList
+                  [cdkDropListData]="column.tasks"
+                  class="example-list"
+                  (cdkDropListDropped)="dropTest($event)">
+                  <div
+                    *ngFor="let task of column.tasks"
+                    cdkDrag
+                    class="example-box"
+
+                  >
+                    <div class="example-custom-placeholder" *cdkDragPlaceholder></div> 
+
+                    <div>
+                      <div class="!text-black !font-semibold !text-lg font-sans !pl-3 !py-1">{{ task.name ? task.name : task.title}}</div>
+                      
+                      <div *cdkDragPreview class="examlpe-box">
+                        <div class="!text-black !font-semibold !text-lg font-sans !pl-3 !py-1">
+                          {{ task.title ? task.title : task.name}}
+                        </div> 
+                        <div class="!pl-3 !pt-1 !font-normal !font-sans">
+                          {{ task.description }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <div class="h-auto pr-2">
+              <mat-expansion-panel class="mat-expansion-panel-2">
+                <mat-expansion-panel-header class="mat-expansion-panel-header-2">
+                  <mat-panel-title>
+                    <h1 class="pt-4 pl-3 font-semibold !text-lg text-stone-800">Add Column</h1>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                
+                <app-add-col-form (columnAdded)="loadBoard()"></app-add-col-form>
+  
+              </mat-expansion-panel>    
+            </div>
+            
+          </div>
+
+  
+        </div>
+
+        <ng-template #loading>
+          <p>Loading...</p>
+        </ng-template>
+
+        <div *ngIf="(boardWithTasks$ | async) === null">
+          <p>No board found or error occurred.</p>
+        </div>
+
+      </ng-container>
+    </div>
+  </div>
+</mat-drawer-container>

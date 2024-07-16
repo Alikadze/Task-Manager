@@ -1,0 +1,66 @@
+<div class="min-h-screen bg-gray-700 py-6 flex flex-col justify-center sm:py-12">
+  <div class="relative py-3 sm:max-w-xl sm:mx-auto">
+      <div class="absolute inset-0 bg-gradient-to-r from-cyan-500 to-orange-500 shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl"></div>
+      <div class="relative px-4 py-8 bg-gray-600 shadow-lg sm:rounded-3xl sm:p-12">
+          <div class="max-w-md mx-auto">
+              <div class="text-center pb-6">
+                  <h1 class="text-4xl font-bold text-white">Add Now</h1>
+                  <p class="mt-2 text-lg text-gray-300">
+                      Create your first project. 
+                  </p>
+              </div>
+
+              @if (successMessage) {
+                <div class="flex items-center p-4 mb-4 text-sm text-green-800 border border-green-300 rounded-lg bg-green-50 en-800" role="alert">
+                  <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                  </svg> 
+                  <span class="sr-only">Info</span> 
+                  <div>
+                    <span class="font-medium w-auto">Success alert!</span> {{successMessage}}
+                  </div>
+                </div>
+              }
+            
+              @if (errorMessage) {
+                <div class="flex items-center p-4 mb-4 text-sm text-red-800 border border-red-300 rounded-lg bg-red-50 low-800" role="alert">
+                  <svg class="flex-shrink-0 inline w-4 h-4 me-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z"/>
+                  </svg>
+                  <span class="sr-only">Info</span>
+                  <div>
+                    <span class="font-medium">Warning alert!</span> {{errorMessage}}.
+                  </div>
+                </div>
+              }
+
+              <form [formGroup]="form">
+
+                  <mat-form-field class="w-full mb-5">
+                      <mat-label class="text-cyan-200">Name</mat-label>
+                      <input matInput formControlName="name">
+                  </mat-form-field> 
+
+                  <mat-form-field class="w-full mb-5">
+                      <mat-label class="text-cyan-200">Abbreviation</mat-label>
+                      <input matInput formControlName="abbreviation">
+                  </mat-form-field>
+                  
+                  <mat-form-field class="w-full mb-5">
+                      <mat-label class="text-cyan-200">Description</mat-label>
+                      <textarea matInput formControlName="description"></textarea>
+                  </mat-form-field>
+
+                  <mat-form-field class="w-full mb-8">
+                    <mat-label>Color</mat-label>
+                    <input matInput placeholder="Color" formControlName="color" type="color">
+                    <mat-hint class="text-cyan-200">Choose a color for the project theme</mat-hint>
+                  </mat-form-field>
+
+
+                  <button mat-raised-button color="accent" (click)="addProject()"  class="w-full bg-gradient-to-r from-cyan-500 to-orange-500 hover:from-orange-500 hover:to-cyan-500">Submit</button>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
