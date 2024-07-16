@@ -25,7 +25,6 @@ export class HeaderComponent {
 
   menuVisible = false;
 
-
   get isAuthenticated() {
     return this.authFacade.isAuthenticated
   }
