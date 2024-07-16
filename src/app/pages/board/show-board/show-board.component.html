@@ -3,9 +3,6 @@
    
     <app-sidebar/>
 
-    <!-- <pre class="!text-white">
-      {{tasks$ | async | json}}
-    </pre> -->
   </mat-drawer>
 
   <div class="loading-position">
@@ -17,10 +14,6 @@
       </div>
     }
   </div>
-
-  <!-- <div *ngIf="isLoading$ | async; else boardContent" class="skeleton-container h-52 flex items-center align-middle">
-    <ngx-skeleton-loader class="!overflow-hidden" count="5" appearance="circle" size="5rem"></ngx-skeleton-loader>
-  </div> -->
 
   <div class="example-sidenav-content overflow-hidden">
     <button type="button" class="toggle-button" mat-button (click)="drawer.toggle()"></button>

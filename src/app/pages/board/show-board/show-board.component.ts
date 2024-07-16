@@ -3,7 +3,7 @@ import { BoardFacade } from '../../../core/facades/board.facade';
 import { AsyncPipe, JsonPipe, DatePipe, NgIf, NgFor, CommonModule } from '@angular/common';
 import { ProjectFacade } from '../../../core/facades/project.facade';
 import { ActivatedRoute } from '@angular/router';
-import { Board, Boardpayload, Column, ColumnPayload, Task } from '../../../core/interfaces/project';
+import { Board, Boardpayload, Column, Task } from '../../../core/interfaces/project';
 import { BehaviorSubject, Observable, Subject, catchError, combineLatest, of, tap } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -203,8 +203,7 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
     if (typeof(column?.tasks) === 'undefined') {
       return;
     }
-
-
+    
     let columTasks = column.tasks as Task[];
 
     if (column) {

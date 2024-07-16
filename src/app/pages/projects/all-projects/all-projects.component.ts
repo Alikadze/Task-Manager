@@ -3,10 +3,11 @@ import { AuthFacade } from '../../../core/facades/auth.facade';
 import { AsyncPipe, JsonPipe, NgFor } from '@angular/common';
 import { ProjectFacade } from '../../../core/facades/project.facade';
 import { ProjectColorService } from '../../../core/services/project-color.service';
-import { Observable, filter } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
 import { LeftSideComponent } from './left-side/left-side.component';
 import { RightSideComponent } from './right-side/right-side.component';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router, RouterOutlet } from '@angular/router';
+import { ChooseProjectComponent } from "../../../components/choose-project/choose-project.component";
 
 @Component({
   selector: 'app-all-projects',
@@ -15,12 +16,13 @@ import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/ro
   styleUrl: './all-projects.component.scss',
   imports: [
     JsonPipe,
-    AsyncPipe, 
-    NgFor, 
-    LeftSideComponent, 
+    AsyncPipe,
+    NgFor,
+    LeftSideComponent,
     RightSideComponent,
-    RouterOutlet
-  ],
+    RouterOutlet,
+    ChooseProjectComponent
+],
 })
 export class AllProjectsComponent {
   selectedProject: any;
