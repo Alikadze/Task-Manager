@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist/tast-managment/browser",
+    "public": "dist/tast-managment/browser/browser",
     "ignore": [
       "firebase.json",
       "**/.*",
