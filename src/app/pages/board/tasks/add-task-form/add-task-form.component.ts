@@ -13,6 +13,7 @@ import { MatOptgroup, MatOption, MatSelect } from '@angular/material/select';
 import { EpicFacade } from '../../../../core/facades/epic.facade';
 import { RouterLink } from '@angular/router';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add-task-form',
@@ -37,6 +38,7 @@ export class AddTaskFormComponent implements AfterViewInit {
   taskFacade = inject(TaskFacade);
   authFacade = inject(AuthFacade);
   epicFacade = inject(EpicFacade);
+  router = inject(Router)
 
   userId = this.authFacade.user.id;
 
@@ -67,6 +69,10 @@ export class AddTaskFormComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     // console.log(this.epics$);
+  }
+
+  navigateToEpicAdd() {
+    return this.router.navigate(['/epic/add']); 
   }
 
   onSubmit(): void {
