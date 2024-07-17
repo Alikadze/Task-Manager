@@ -1,5 +1,9 @@
 {
   "projects": {
-    "default": "task-manager-e76b7"
-  }
+    "default": "task-manager-e76b7",
+    "staging": "task-manager-e76b7"
+  },
+  "targets": {},
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
 }
