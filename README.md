@@ -1,27 +1,28 @@
-# TastManagment
+# Task Manager Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
+## Overview
 
-## Development server
+This is a Task Manager Application built with Angular. It features a sleek and intuitive interface, allowing users to manage their tasks efficiently. The application utilizes RxJS for state management and reactive programming, ensuring a smooth and responsive user experience. One of the key features is the drag-and-drop functionality for tasks, making it easy to organize and prioritize tasks.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- **Task Management**: Create, update, and delete tasks.
+- **Drag and Drop**: Easily reorder tasks using drag-and-drop functionality.
+- **Reactive Programming**: Utilizes RxJS for efficient state management and data flow.
+- **Responsive Design**: A user-friendly interface that works seamlessly on both desktop and mobile devices.
+- **Real-time Updates**: Changes to tasks are updated in real-time.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Technologies Used
 
-## Build
+- **Angular**: Frontend framework used to build the application.
+- **RxJS**: For handling asynchronous data streams and state management.
+- **HTML5 & CSS3**: For structuring and styling the application.
+- **TypeScript**: Programming language used to develop the application.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Installation
 
-## Running unit tests
+To run this project locally, follow these steps:
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Alikadze/Task-Manager.git
