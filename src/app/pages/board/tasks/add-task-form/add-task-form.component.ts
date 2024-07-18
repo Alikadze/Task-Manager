@@ -68,7 +68,6 @@ export class AddTaskFormComponent implements AfterViewInit {
   epics$ = this.epicFacade.getEpics();
 
   ngAfterViewInit(): void {
-    // console.log(this.epics$);
   }
 
   navigateToEpicAdd() {

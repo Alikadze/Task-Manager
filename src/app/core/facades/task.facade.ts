@@ -30,7 +30,6 @@ export class TaskFacade {
     const updatedTask = { position, boardColumnId };
     return this.taskService.updateTask(taskId, updatedTask).pipe(
       tap((updatedTask) => {
-        console.log(`Task ${taskId} position and column updated successfully:`, updatedTask);
       }),
       catchError((error) => {
         console.error(`Error updating task ${taskId} position and column:`, error);

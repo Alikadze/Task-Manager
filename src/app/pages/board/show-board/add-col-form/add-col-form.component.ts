@@ -98,7 +98,6 @@ export class AddColFormComponent implements OnInit {
     this.boardFacade.addColumn(this.boardId, this.projectId, columnPayload).pipe(
       tap({
         next: (updatedBoard) => {
-          console.log("Updated Board:", updatedBoard);
           this.loading = false;
           this.successMessage = "Column added successfully!";
 
@@ -114,7 +113,6 @@ export class AddColFormComponent implements OnInit {
           }, 2000);
         },
         error: (error) => {
-          console.log(error);
           this.errorMessage = "Failed to add column.";
           this.successMessage = null;
           this.loading = false;

@@ -104,7 +104,6 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       this.taskFacade.getTasks(this.boardId, true)
     ]).pipe(
       tap(([board, tasks]) => {
-        console.log('Board loaded:', board);
         this.transformBoardToBoardTestCopy(board, tasks);
         this.boardFacade.updatedBoardSubject.next(board);
         this.isLoading$.next(false);
@@ -144,7 +143,6 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       columns
     );
     
-    console.log('Transformed Board:', this.boardTestCopy);
   }
   
     
@@ -180,7 +178,6 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
       column.tasks?.forEach((task, index) => {
         this.taskFacade.updateTaskPositionAndColumn(task.id as number, index, column.id as number).subscribe({
           next: (updatedTask) => {
-            console.log(`Task ${task.id} position and column updated successfully:`, updatedTask);
             task.position = index;  
             task.boardColumnId = column.id as number;  
           },
@@ -189,7 +186,6 @@ export class ShowBoardComponent implements OnInit, OnDestroy, AfterViewInit {
           }
         });
 
-        console.log('position:', index, 'column:', column.id, 'task:', task.id);
         
       });
     });
