@@ -18,6 +18,7 @@ This is a Task Manager Application built with Angular. It features a sleek and i
 - **RxJS**: For handling asynchronous data streams and state management.
 - **HTML5 & CSS3**: For structuring and styling the application.
 - **TypeScript**: Programming language used to develop the application.
+- **Tailwind CSS**: For styling the application.
 
 ## Installation
 
