@@ -39,12 +39,9 @@ export class BoardFacade {
   addColumn(boardId: number, projectId: number, columnPayload: ColumnPayload): Observable<Board> {
     return this.boardService.addBoardColumn(boardId, projectId, columnPayload).pipe(
       tap(updatedBoard => {
-        console.log('Column added successfully:', updatedBoard); 
-        console.log('Emitting updated board via updatedBoardSubject'); // Additional log
         this.updatedBoardSubject.next(updatedBoard); 
     }),
       catchError(error => {
-        console.error('Error adding column:', error);
         return throwError(() => new Error(`Error adding column: ${error.message || 'Unknown error'}`));
       })
     );
@@ -68,7 +65,6 @@ export class BoardFacade {
   getBoardById(boardId: number, projectId: number): Observable<Board> {
     return this.boardService.getBoardById(boardId, projectId).pipe(
       tap((response: Board) => {
-        console.log('Full response:', response);
       }),
       catchError((error: any) => {
         console.error('Error fetching board by ID:', error);

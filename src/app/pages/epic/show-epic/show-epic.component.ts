@@ -50,7 +50,6 @@ export class ShowEpicComponent implements OnInit {
         const epicId = +params['id'];
         return this.epicFacade.getEpic(epicId).pipe(
           tap(epic => {
-            console.log('Epic fetched:', epic);
             this.projectId = epic.projectId;
           }),
           switchMap(epic => {
@@ -59,7 +58,6 @@ export class ShowEpicComponent implements OnInit {
                 const board = boards.find(b => b.projectId === this.projectId);
                 if (board) {
                   this.boardId = board.id;
-                  console.log('Board found:', board);
                 } else {
                   throw new Error('Board not found');
                 }
@@ -77,12 +75,9 @@ export class ShowEpicComponent implements OnInit {
         const epicId = +params['id'];
         return this.taskFacade.getTasksByEpicId(epicId).pipe(
           tap(tasks => {
-            console.log('Tasks fetched before filtering:', tasks);
-            console.log('epicId:', this.epicId);
           }),
           tap(tasks => {
             this.filteredTasks$ = of(tasks.filter(task => task.epic?.id === this.epicId));
-            console.log('Filtered tasks:', this.filteredTasks$);
           }),
           tap(() => this.loadingSubject.next(false))
         );
